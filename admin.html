@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员后台 - 闲狗联合会</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h2>闲狗联合会 - 管理后台</h2>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">返回首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="logout()">退出登录</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <div class="container">
+                <h1>会员管理后台</h1>
+                <p>审核和管理会员注册申请</p>
+            </div>
+        </div>
+
+        <section class="admin-section">
+            <div class="container">
+                <!-- 管理员登录表单 -->
+                <div class="admin-login" id="adminLogin">
+                    <div class="admin-login-container">
+                        <form class="admin-login-form" id="adminLoginForm">
+                            <h2>管理员登录</h2>
+                            
+                            <div class="form-group">
+                                <label for="adminUsername">管理员账号</label>
+                                <input type="text" id="adminUsername" name="username" required 
+                                       placeholder="请输入管理员账号">
+                                <span class="error-message" id="adminUsernameError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="adminPassword">管理员密码</label>
+                                <input type="password" id="adminPassword" name="password" required 
+                                       placeholder="请输入管理员密码">
+                                <span class="error-message" id="adminPasswordError"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-full">
+                                登录后台
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 管理后台主界面 -->
+                <div class="admin-dashboard" id="adminDashboard" style="display: none;">
+                    <div class="dashboard-header">
+                        <h2>会员审核管理</h2>
+                        <div class="dashboard-stats">
+                            <div class="stat-card">
+                                <h3 id="pendingCount">0</h3>
+                                <p>待审核</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="approvedCount">0</h3>
+                                <p>已通过</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="rejectedCount">0</h3>
+                                <p>已拒绝</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-tabs">
+                        <button class="tab-btn active" onclick="showTab('pending')">待审核申请</button>
+                        <button class="tab-btn" onclick="showTab('approved')">已通过会员</button>
+                        <button class="tab-btn" onclick="showTab('rejected')">已拒绝申请</button>
+                    </div>
+
+                    <!-- 待审核申请 -->
+                    <div class="tab-content active" id="pendingTab">
+                        <div class="applications-list" id="pendingApplications">
+                            <!-- 示例待审核申请 -->
+                            <div class="application-card" data-id="1">
+                                <div class="application-header">
+                                    <h3>张三</h3>
+                                    <span class="status-badge pending">待审核</span>
+                                </div>
+                                <div class="application-info">
+                                    <div class="info-row">
+                                        <span class="label">用户名:</span>
+                                        <span class="value">zhangsan123</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">邮箱:</span>
+                                        <span class="value">zhangsan@example.com</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">手机:</span>
+                                        <span class="value">138****5678</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">城市:</span>
+                                        <span class="value">北京</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">申请时间:</span>
+                                        <span class="value">2024-01-15 14:30</span>
+                                    </div>
+                                </div>
+                                <div class="application-details">
+                                    <div class="detail-section">
+                                        <h4>兴趣爱好:</h4>
+                                        <p>喜欢摄影、旅行、美食，希望能结识更多志同道合的朋友。</p>
+                                    </div>
+                                    <div class="detail-section">
+                                        <h4>申请理由:</h4>
+                                        <p>我是一个热爱生活的人，希望通过闲狗联合会认识更多有趣的朋友，参与各种有意义的活动，丰富自己的业余生活。我相信在这个平台上能够找到属于自己的圈子。</p>
+                                    </div>
+                                </div>
+                                <div class="application-actions">
+                                    <button class="btn btn-success" onclick="approveApplication(1)">通过申请</button>
+                                    <button class="btn btn-danger" onclick="rejectApplication(1)">拒绝申请</button>
+                                    <button class="btn btn-secondary" onclick="viewDetails(1)">查看详情</button>
+                                </div>
+                            </div>
+
+                            <div class="application-card" data-id="2">
+                                <div class="application-header">
+                                    <h3>李四</h3>
+                                    <span class="status-badge pending">待审核</span>
+                                </div>
+                                <div class="application-info">
+                                    <div class="info-row">
+                                        <span class="label">用户名:</span>
+                                        <span class="value">lisi456</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">邮箱:</span>
+                                        <span class="value">lisi@example.com</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">手机:</span>
+                                        <span class="value">139****1234</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">城市:</span>
+                                        <span class="value">上海</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">申请时间:</span>
+                                        <span class="value">2024-01-16 09:15</span>
+                                    </div>
+                                </div>
+                                <div class="application-details">
+                                    <div class="detail-section">
+                                        <h4>兴趣爱好:</h4>
+                                        <p>运动健身、读书、电影，喜欢户外活动。</p>
+                                    </div>
+                                    <div class="detail-section">
+                                        <h4>申请理由:</h4>
+                                        <p>作为一个新来上海的人，希望能通过闲狗联合会快速融入本地生活，结识新朋友。我性格开朗，乐于助人，相信能为社区带来正能量。</p>
+                                    </div>
+                                </div>
+                                <div class="application-actions">
+                                    <button class="btn btn-success" onclick="approveApplication(2)">通过申请</button>
+                                    <button class="btn btn-danger" onclick="rejectApplication(2)">拒绝申请</button>
+                                    <button class="btn btn-secondary" onclick="viewDetails(2)">查看详情</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 已通过会员 -->
+                    <div class="tab-content" id="approvedTab">
+                        <div class="members-list" id="approvedMembers">
+                            <div class="member-card">
+                                <div class="member-header">
+                                    <h3>王五</h3>
+                                    <span class="status-badge approved">已通过</span>
+                                </div>
+                                <div class="member-info">
+                                    <div class="info-row">
+                                        <span class="label">用户名:</span>
+                                        <span class="value">wangwu789</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">邮箱:</span>
+                                        <span class="value">wangwu@example.com</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">审核时间:</span>
+                                        <span class="value">2024-01-10 16:20</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">最后登录:</span>
+                                        <span class="value">2024-01-16 10:30</span>
+                                    </div>
+                                </div>
+                                <div class="member-actions">
+                                    <button class="btn btn-warning" onclick="suspendMember('wangwu789')">暂停账户</button>
+                                    <button class="btn btn-secondary" onclick="viewMemberDetails('wangwu789')">查看详情</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 已拒绝申请 -->
+                    <div class="tab-content" id="rejectedTab">
+                        <div class="rejected-list" id="rejectedApplications">
+                            <div class="application-card">
+                                <div class="application-header">
+                                    <h3>赵六</h3>
+                                    <span class="status-badge rejected">已拒绝</span>
+                                </div>
+                                <div class="application-info">
+                                    <div class="info-row">
+                                        <span class="label">拒绝原因:</span>
+                                        <span class="value">申请理由不充分</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">拒绝时间:</span>
+                                        <span class="value">2024-01-12 11:45</span>
+                                    </div>
+                                </div>
+                                <div class="application-actions">
+                                    <button class="btn btn-primary" onclick="reconsiderApplication('zhaoliu')">重新考虑</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>闲狗联合会</h3>
+                    <p>连接志同道合的朋友，创造美好的回忆</p>
+                </div>
+                <div class="footer-section">
+                    <h4>管理功能</h4>
+                    <ul>
+                        <li><a href="#" onclick="showTab('pending')">会员审核</a></li>
+                        <li><a href="#" onclick="showTab('approved')">会员管理</a></li>
+                        <li><a href="events.html">活动管理</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>联系方式</h4>
+                    <p>管理员邮箱: <a href="mailto:admin@xiangou9360.com">admin@xiangou9360.com</a></p>
+                    <p>技术支持: 400-123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 闲狗联合会. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

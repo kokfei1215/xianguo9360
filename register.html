@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会员注册 - 闲狗联合会</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h2>闲狗联合会</h2>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="about.html" class="nav-link">关于我们</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="events.html" class="nav-link">活动展示</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contact.html" class="nav-link">联系我们</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="login.html" class="nav-link">登录</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="register.html" class="nav-link active">注册</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <div class="container">
+                <h1>会员注册</h1>
+                <p>加入闲狗联合会，开启精彩的社交生活</p>
+            </div>
+        </div>
+
+        <section class="register-section">
+            <div class="container">
+                <div class="register-container">
+                    <div class="register-info">
+                        <h2>注册须知</h2>
+                        <div class="info-card">
+                            <h3>📋 审核流程</h3>
+                            <ul>
+                                <li>提交注册申请</li>
+                                <li>管理员审核（1-3个工作日）</li>
+                                <li>审核通过后可正常登录</li>
+                                <li>审核结果将通过邮件通知</li>
+                            </ul>
+                        </div>
+                        <div class="info-card">
+                            <h3>🎯 会员权益</h3>
+                            <ul>
+                                <li>参与所有线上线下活动</li>
+                                <li>访问会员专属内容</li>
+                                <li>优先报名热门活动</li>
+                                <li>获得积分奖励和礼品</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="register-form-container">
+                        <form class="register-form" id="registerForm">
+                            <h2>填写注册信息</h2>
+                            
+                            <div class="form-group">
+                                <label for="username">用户名 *</label>
+                                <input type="text" id="username" name="username" required 
+                                       placeholder="请输入用户名（3-20个字符）">
+                                <span class="error-message" id="usernameError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">邮箱地址 *</label>
+                                <input type="email" id="email" name="email" required 
+                                       placeholder="请输入邮箱地址">
+                                <span class="error-message" id="emailError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">密码 *</label>
+                                <input type="password" id="password" name="password" required 
+                                       placeholder="请输入密码（至少6位）">
+                                <span class="error-message" id="passwordError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="confirmPassword">确认密码 *</label>
+                                <input type="password" id="confirmPassword" name="confirmPassword" required 
+                                       placeholder="请再次输入密码">
+                                <span class="error-message" id="confirmPasswordError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="realName">真实姓名 *</label>
+                                <input type="text" id="realName" name="realName" required 
+                                       placeholder="请输入真实姓名">
+                                <span class="error-message" id="realNameError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">手机号码 *</label>
+                                <input type="tel" id="phone" name="phone" required 
+                                       placeholder="请输入手机号码">
+                                <span class="error-message" id="phoneError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="city">所在城市</label>
+                                <input type="text" id="city" name="city" 
+                                       placeholder="请输入所在城市">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="interests">兴趣爱好</label>
+                                <textarea id="interests" name="interests" rows="3" 
+                                          placeholder="请简单介绍您的兴趣爱好，有助于我们为您推荐合适的活动"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="reason">申请理由 *</label>
+                                <textarea id="reason" name="reason" rows="4" required 
+                                          placeholder="请说明您申请加入闲狗联合会的理由，这将有助于审核"></textarea>
+                                <span class="error-message" id="reasonError"></span>
+                            </div>
+
+                            <div class="form-group checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="agreement" name="agreement" required>
+                                    <span class="checkmark"></span>
+                                    我已阅读并同意 <a href="#" class="link">用户协议</a> 和 <a href="#" class="link">隐私政策</a>
+                                </label>
+                                <span class="error-message" id="agreementError"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-full">
+                                提交注册申请
+                            </button>
+
+                            <div class="form-footer">
+                                <p>已有账号？<a href="login.html" class="link">立即登录</a></p>
+                            </div>
+                        </form>
+
+                        <div class="success-message" id="successMessage" style="display: none;">
+                            <div class="success-card">
+                                <h3>🎉 注册申请提交成功！</h3>
+                                <p>您的注册申请已成功提交，我们将在1-3个工作日内完成审核。</p>
+                                <p>审核结果将通过邮件通知您，请注意查收。</p>
+                                <a href="index.html" class="btn btn-primary">返回首页</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>闲狗联合会</h3>
+                    <p>连接志同道合的朋友，创造美好的回忆</p>
+                </div>
+                <div class="footer-section">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="about.html">关于我们</a></li>
+                        <li><a href="events.html">活动展示</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                        <li><a href="register.html">会员注册</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>联系方式</h4>
+                    <p>邮箱: <a href="mailto:info@xiangou9360.com">info@xiangou9360.com</a></p>
+                    <p>电话: 400-123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 闲狗联合会. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

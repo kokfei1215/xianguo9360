@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系我们 - 闲狗联合会（JLP）</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>闲狗联合会（JLP）</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="about.html">关于我们</a></li>
+                    <li><a href="events.html">活动展示</a></li>
+                    <li><a href="contact.html" class="active">联系我们</a></li>
+                    <li><a href="login.html">登录</a></li>
+                    <li><a href="register.html">注册</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>联系我们</h1>
+            <p>有任何问题或建议，欢迎随时联系我们</p>
+        </div>
+    </section>
+
+    <section class="contact-info">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>地址</h3>
+                    <p>城市中心商务区A座1001室</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3>电话</h3>
+                    <p>017-512-0686</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>邮箱</h3>
+                    <p><a href="mailto:info@xiangou9360.com">info@xiangou9360.com</a></p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>工作时间</h3>
+                    <p>周一至周五: 9:00 - 18:00</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-form">
+        <div class="container">
+            <h2 class="section-title">给我们留言</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">姓名</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">邮箱</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">电话</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="subject">主题</label>
+                    <select id="subject" name="subject">
+                        <option value="general">一般咨询</option>
+                        <option value="membership">会员申请</option>
+                        <option value="event">活动咨询</option>
+                        <option value="cooperation">合作提案</option>
+                        <option value="other">其他</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">留言内容</label>
+                    <textarea id="message" name="message" rows="6" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-large">提交</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="map-section">
+        <div class="container">
+            <h2 class="section-title">我们的位置</h2>
+            <div class="map-container">
+                <!-- 这里可以嵌入地图，例如百度地图或高德地图 -->
+                <img src="img/map-1200x400.svg" alt="地图位置" class="map-placeholder">
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title">常见问题</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>如何成为闲狗联合会（JLP）会员？</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>您可以通过填写上方的联系表单申请成为会员，或者直接致电我们的会员服务热线。我们的工作人员会尽快与您联系，为您介绍会员申请流程和相关福利。</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>会员费用是多少？</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>我们提供不同级别的会员服务，年费从500元到2000元不等，具体取决于您选择的会员类型和享受的服务内容。详情请咨询我们的会员服务部门。</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>如何参加闲狗联合会（JLP）的活动？</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>会员可以通过我们的官方网站、微信公众号或会员邮件获取最新的活动信息，并通过在线报名系统报名参加。部分活动也向非会员开放，但可能需要支付额外费用。</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>闲狗联合会（JLP）接受企业合作吗？</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>是的，我们欢迎各类企业合作，包括活动赞助、资源共享、联合举办活动等。如有合作意向，请通过上方联系表单或直接联系我们的合作部门。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>闲狗联合会（JLP）</h2>
+                    <p>连接·分享·成长</p>
+                </div>
+                <div class="footer-links">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="about.html">关于我们</a></li>
+                        <li><a href="events.html">活动展示</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>联系方式</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 地址：城市中心商务区A座1001室</p>
+                    <p><i class="fas fa-phone"></i> 电话：123-456-7890</p>
+                <p><i class="fas fa-envelope"></i> 邮箱：<a href="mailto:info@xiangou9360.com">info@xiangou9360.com</a></p>
+                </div>
+                <div class="footer-social">
+                    <h3>关注我们</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 闲狗联合会（JLP） 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        // FAQ 切换显示
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                const answer = item.querySelector('.faq-answer');
+                const toggle = item.querySelector('.faq-toggle');
+                
+                question.addEventListener('click', function() {
+                    answer.classList.toggle('active');
+                    toggle.innerHTML = answer.classList.contains('active') ? 
+                        '<i class="fas fa-minus"></i>' : '<i class="fas fa-plus"></i>';
+                });
+            });
+            
+            // 表单提交处理
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    // 这里可以添加表单验证和提交逻辑
+                    alert('感谢您的留言！我们会尽快回复您。');
+                    contactForm.reset();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
