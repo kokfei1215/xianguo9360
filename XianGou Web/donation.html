@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>捐款 - 闲狗联合会（JLP）</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>闲狗联合会（JLP）</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="about.html">关于我们</a></li>
+                    <li><a href="events.html">活动展示</a></li>
+                    <li><a href="contact.html">联系我们</a></li>
+                    <li><a href="donation.html" class="active">捐款</a></li>
+                    <li><a href="application.html">入会申请</a></li>
+                    <li><a href="login.html">登录</a></li>
+                    <li><a href="register.html">注册</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="donation-form-section">
+        <div class="container">
+            <h2 class="section-title">支持我们</h2>
+            <p class="section-subtitle">您的捐款将帮助我们更好地服务社区</p>
+            <form id="donation-form" class="donation-form">
+                <div class="form-group">
+                    <label for="amount">捐款金额 (元)</label>
+                    <input type="number" id="amount" name="amount" min="1" placeholder="请输入捐款金额" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">姓名</label>
+                    <input type="text" id="name" name="name" placeholder="请输入您的姓名" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">电子邮箱</label>
+                    <input type="email" id="email" name="email" placeholder="请输入您的电子邮箱" required>
+                </div>
+                <div class="form-group">
+                    <label>捐款方式</label>
+                    <div class="payment-methods">
+                        <input type="radio" id="alipay" name="payment_method" value="alipay" checked>
+                        <label for="alipay">支付宝</label>
+                        <input type="radio" id="wechatpay" name="payment_method" value="wechatpay">
+                        <label for="wechatpay">微信支付</label>
+                        <input type="radio" id="paypal" name="payment_method" value="paypal">
+                        <label for="paypal">PayPal</label>
+                        <input type="radio" id="card" name="payment_method" value="card">
+                        <label for="card">信用卡（Visa/Mastercard/Stripe）</label>
+                        <input type="radio" id="applepay" name="payment_method" value="applepay">
+                        <label for="applepay">Apple Pay</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn">立即捐款</button>
+            </form>
+            <div id="donation-confirmation" class="confirmation-message" style="display:none;">
+                <h3>感谢您的捐款！</h3>
+                <p>我们已收到您的捐款，并向您的电子邮箱发送了确认邮件。</p>
+            </div>
+            <hr>
+            <section class="donation-records">
+                <h3>捐款记录</h3>
+                <p>以下为最近的捐款记录（本地存储）。</p>
+                <table class="records-table" id="donationRecordsTable" style="width:100%; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="text-align:left; border-bottom:1px solid #ddd; padding:8px;">姓名</th>
+                            <th style="text-align:right; border-bottom:1px solid #ddd; padding:8px;">金额（元）</th>
+                        </tr>
+                    </thead>
+                    <tbody id="donationRecordsBody">
+                        <!-- 由脚本渲染 -->
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>闲狗联合会（JLP）</h2>
+                    <p>连接·分享·成长</p>
+                </div>
+                <div class="footer-links">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="about.html">关于我们</a></li>
+                        <li><a href="events.html">活动展示</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>联系方式</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 地址：城市中心商务区A座1001室</p>
+                    <p><i class="fas fa-phone"></i> 电话：017-512-0686</p>
+                    <p><i class="fas fa-envelope"></i> 邮箱：<a href="mailto:info@xiangou9360.com">info@xiangou9360.com</a></p>
+                </div>
+                <div class="footer-social">
+                    <h3>关注我们</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 闲狗联合会（JLP） 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js?v=4"></script>
+</body>
+</html>

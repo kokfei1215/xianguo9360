@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会员登录 - 闲狗联合会</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h2>闲狗联合会</h2>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="about.html" class="nav-link">关于我们</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="events.html" class="nav-link">活动展示</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contact.html" class="nav-link">联系我们</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="login.html" class="nav-link active">登录</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="register.html" class="nav-link">注册</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <div class="container">
+                <h1>会员登录</h1>
+                <p>欢迎回到闲狗联合会</p>
+            </div>
+        </div>
+
+        <section class="login-section">
+            <div class="container">
+                <div class="login-container">
+                    <div class="login-form-container">
+                        <form class="login-form" id="loginForm">
+                            <h2>登录您的账户</h2>
+                            
+                            <div class="form-group">
+                                <label for="loginMemberId">会员ID</label>
+                                <input type="text" id="loginMemberId" name="memberId" required 
+                                       placeholder="请输入会员ID（如：M123456789）">
+                                <span class="error-message" id="loginMemberIdError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="loginPassword">密码</label>
+                                <input type="password" id="loginPassword" name="password" required 
+                                       placeholder="请输入密码">
+                                <span class="error-message" id="loginPasswordError"></span>
+                            </div>
+
+                            <div class="form-group checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="rememberMe" name="rememberMe">
+                                    <span class="checkmark"></span>
+                                    记住我
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-full">
+                                登录
+                            </button>
+
+                            <div class="form-footer">
+                                <p><a href="#" class="link" onclick="showForgotPassword()">忘记密码？</a></p>
+                                <p>还没有账号？<a href="register.html" class="link">立即注册</a></p>
+                                <p>快速注册？<a href="auto-register.html" class="link">一键自动注册</a></p>
+                            </div>
+                        </form>
+
+                        <!-- 登录状态提示 -->
+                        <div class="status-message" id="statusMessage" style="display: none;">
+                            <div class="status-card">
+                                <h3 id="statusTitle">登录状态</h3>
+                                <p id="statusText">正在验证您的登录信息...</p>
+                                <div id="statusActions"></div>
+                            </div>
+                        </div>
+
+                        <!-- 忘记密码表单 -->
+                        <div class="forgot-password-form" id="forgotPasswordForm" style="display: none;">
+                            <h2>重置密码</h2>
+                            <p>请输入您的会员ID，我们将发送重置密码的链接给您。</p>
+                            
+                            <div class="form-group">
+                                <label for="resetMemberId">会员ID</label>
+                                <input type="text" id="resetMemberId" name="resetMemberId" required 
+                                       placeholder="请输入注册时使用的会员ID">
+                                <span class="error-message" id="resetMemberIdError"></span>
+                            </div>
+
+                            <button type="button" class="btn btn-primary btn-full" onclick="sendResetEmail()">
+                                发送重置链接
+                            </button>
+
+                            <div class="form-footer">
+                                <p><a href="#" class="link" onclick="showLoginForm()">返回登录</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="login-info">
+                        <div class="info-card">
+                                <h3>🔐 账户安全</h3>
+                                <ul>
+                                    <li>所有账户需要管理员审核通过</li>
+                                    <li>请使用您的会员ID登录</li>
+                                    <li>如忘记密码可申请重置</li>
+                                    <li>多次登录失败将暂时锁定账户</li>
+                                </ul>
+                            </div>
+
+                        <div class="info-card">
+                            <h3>❓ 常见问题</h3>
+                            <div class="faq-item">
+                                <strong>Q: 注册后无法登录？</strong>
+                                <p>A: 请等待管理员审核通过，通常需要1-3个工作日。</p>
+                            </div>
+                            <div class="faq-item">
+                                <strong>Q: 忘记了会员ID？</strong>
+                                <p>A: 请联系管理员查询您的会员ID，或查看注册时的确认信息。</p>
+                            </div>
+                            <div class="faq-item">
+                                <strong>Q: 需要帮助？</strong>
+                                <p>A: 请联系管理员 <a href="mailto:admin@xiangou9360.com">admin@xiangou9360.com</a></p>
+                            </div>
+                        </div>
+
+                        <div class="info-card">
+                            <h3>🎯 登录后可以</h3>
+                            <ul>
+                                <li>查看和报名最新活动</li>
+                                <li>访问会员专属内容</li>
+                                <li>管理个人资料和偏好</li>
+                                <li>参与社区讨论</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>闲狗联合会</h3>
+                    <p>连接志同道合的朋友，创造美好的回忆</p>
+                </div>
+                <div class="footer-section">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="about.html">关于我们</a></li>
+                        <li><a href="events.html">活动展示</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                    <li><a href="donation.html">捐款</a></li>
+                    <li><a href="application.html">入会申请</a></li>
+                    <li><a href="login.html" class="active">登录</a></li>
+                    <li><a href="register.html">注册</a></li>
+                </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>联系方式</h4>
+                    <p>邮箱: <a href="mailto:info@xiangou9360.com">info@xiangou9360.com</a></p>
+                    <p>电话: 017-512-0686</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 闲狗联合会. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/api-client.js"></script>
+    <script src="js/script.js?v=4"></script>
+</body>
+</html>

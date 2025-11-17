@@ -1,0 +1,2399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员后台 - 闲狗联合会</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="img/jlp-logo.svg">
+    <link rel="icon" type="image/png" href="img/jlp-logo.png">
+    <style>
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 1px solid #00ff88;
+            border-radius: 15px;
+            margin: 5% auto;
+            padding: 0;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            background: rgba(0, 255, 136, 0.1);
+            padding: 20px;
+            border-bottom: 1px solid #00ff88;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: #00ff88;
+            font-size: 1.5rem;
+        }
+
+        .close {
+            color: #00ff88;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: #ffffff;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .member-detail-info, .member-wallet-info {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(0, 255, 136, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .member-detail-info h4, .member-wallet-info h4 {
+            color: #00ff88;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .wallet-actions {
+            margin-top: 15px;
+        }
+
+        .transactions-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 15px 0;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border-left: 4px solid #00ff88;
+        }
+
+        .transaction-item.withdraw {
+            border-left-color: #ff4444;
+        }
+
+        .transaction-info {
+            flex: 1;
+        }
+
+        .transaction-type {
+            font-weight: bold;
+            color: #00ff88;
+        }
+
+        .transaction-type.withdraw {
+            color: #ff4444;
+        }
+
+        .transaction-date {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .transaction-amount {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .transaction-amount.deposit {
+            color: #00ff88;
+        }
+
+        .transaction-amount.withdraw {
+            color: #ff4444;
+        }
+
+        .member-transactions {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 255, 136, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .wallet-balance {
+            font-weight: bold;
+            color: #00ff88;
+        }
+        
+        /* 表单样式 */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #00ff88;
+            font-weight: bold;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #00ff88;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #00cc6a;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        /* 会员列表样式 */
+        .member-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0, 255, 136, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .member-list-header h3 {
+            margin: 0;
+            color: #00ff88;
+        }
+
+        .member-list-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .member-list-stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .member-list-stats span {
+            color: #ccc;
+        }
+
+        .member-list-stats strong {
+            color: #00ff88;
+            font-size: 1.2em;
+        }
+
+        .member-list-container {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .member-list-pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .member-list-pagination button {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        /* 会员状态标签 */
+        .member-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .member-status.active {
+            background: #00ff88;
+            color: #000;
+        }
+
+        .member-status.inactive {
+            background: #666;
+            color: #fff;
+        }
+
+        .member-status.suspended {
+            background: #ff6b6b;
+            color: #fff;
+        }
+
+        /* 会员等级标签 */
+        .member-level {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+            border: 1px solid #00ff88;
+        }
+
+        /* 会员职位标签 */
+        .member-position {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            min-width: 60px;
+        }
+
+        .position-前主席 {
+            background: rgba(255, 215, 0, 0.2);
+            color: #FFD700;
+            border: 1px solid #FFD700;
+        }
+
+        .position-主席 {
+            background: rgba(255, 107, 53, 0.2);
+            color: #FF6B35;
+            border: 1px solid #FF6B35;
+        }
+
+        .position-副主席 {
+            background: rgba(255, 142, 83, 0.2);
+            color: #FF8E53;
+            border: 1px solid #FF8E53;
+        }
+
+        .position-财政 {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00FF88;
+            border: 1px solid #00FF88;
+        }
+
+        .position-外交 {
+            background: rgba(135, 206, 235, 0.2);
+            color: #87CEEB;
+            border: 1px solid #87CEEB;
+        }
+
+        .position-联谊会贷款 {
+            background: rgba(147, 112, 219, 0.2);
+            color: #9370DB;
+            border: 1px solid #9370DB;
+        }
+
+        .position-理事 {
+            background: rgba(70, 130, 180, 0.2);
+            color: #4682B4;
+            border: 1px solid #4682B4;
+        }
+
+        .position-卫生部部长 {
+            background: rgba(50, 205, 50, 0.2);
+            color: #32CD32;
+            border: 1px solid #32CD32;
+        }
+
+        .position-打手 {
+            background: rgba(220, 20, 60, 0.2);
+            color: #DC143C;
+            border: 1px solid #DC143C;
+        }
+
+        .position-车手 {
+            background: rgba(255, 20, 147, 0.2);
+            color: #FF1493;
+            border: 1px solid #FF1493;
+        }
+
+        .position-普通会员 {
+            background: rgba(204, 204, 204, 0.2);
+            color: #CCCCCC;
+            border: 1px solid #CCCCCC;
+        }
+
+        /* 表格样式增强 */
+        .donations-table th {
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            font-weight: bold;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .donations-table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .donations-table tr:hover {
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        /* 操作按钮样式 */
+        .member-action-btn {
+            padding: 4px 8px;
+            margin: 0 2px;
+            font-size: 12px;
+            border-radius: 4px;
+        }
+
+        .member-action-btn.view {
+            background: #00ff88;
+            color: #000;
+        }
+
+        .member-action-btn.edit {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .member-action-btn.delete {
+            background: #ff6b6b;
+            color: #fff;
+        }
+
+        .member-action-btn.suspend {
+            background: #666;
+            color: #fff;
+        }
+
+        .member-action-btn.position {
+            background: #ff6b35;
+            color: #fff;
+        }
+
+        .member-action-btn.position:hover {
+            background: #ff5722;
+        }
+
+        .member-action-btn.password {
+            background: #9c27b0;
+            color: #fff;
+        }
+
+        .member-action-btn.password:hover {
+            background: #7b1fa2;
+        }
+
+        /* 会话状态样式 */
+        .session-status {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .session-status.warning {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+
+        .session-status.danger {
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+        }
+
+        .session-status small {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <img class="site-logo" src="img/jlp-logo.svg" onerror="this.src='img/jlp-logo.png'" alt="JLP Logo">
+                    <h2 class="site-title">闲狗联合会 - 管理后台</h2>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">返回首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="logout()">退出登录</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <div class="container">
+                <h1>会员管理后台</h1>
+                <p>审核和管理会员注册申请</p>
+            </div>
+        </div>
+
+        <section class="admin-section">
+            <div class="container">
+                <!-- 管理员登录表单 -->
+                <div class="admin-login" id="adminLogin">
+                    <div class="admin-login-container">
+                        <form class="admin-login-form" id="adminLoginForm">
+                            <h2>管理员登录</h2>
+                            
+                            <div class="form-group">
+                                <label for="adminUsername">管理员账号</label>
+                                <input type="text" id="adminUsername" name="username" required 
+                                       placeholder="请输入管理员账号">
+                                <span class="error-message" id="adminUsernameError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="adminPassword">管理员密码</label>
+                                <input type="password" id="adminPassword" name="password" required 
+                                       placeholder="请输入管理员密码">
+                                <span class="error-message" id="adminPasswordError"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-full">
+                                登录后台
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 管理后台主界面 -->
+                <div class="admin-dashboard" id="adminDashboard" style="display: none;">
+                    <div class="dashboard-header">
+                        <h2>会员审核管理</h2>
+                        <div class="dashboard-stats">
+                            <div class="stat-card">
+                                <h3 id="pendingCount">0</h3>
+                                <p>待审核</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="approvedCount">0</h3>
+                                <p>已通过</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="rejectedCount">0</h3>
+                                <p>已拒绝</p>
+                            </div>
+                            <div class="stat-card session-status">
+                                <h3 id="sessionStatus">🟢</h3>
+                                <p>会话状态</p>
+                                <small id="sessionTime">2:00:00</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-tabs">
+                        <button class="tab-btn active" onclick="showTab('pending', this)">待审核申请</button>
+                        <button class="tab-btn" onclick="showTab('memberList', this)">会员列表</button>
+                        <button class="tab-btn" onclick="showTab('approved', this)">已通过会员</button>
+                        <button class="tab-btn" onclick="showTab('rejected', this)">已拒绝申请</button>
+                        <button class="tab-btn" onclick="showTab('donations', this)">捐款管理</button>
+                        <button class="tab-btn" onclick="showTab('applications', this)">入会申请管理</button>
+                        <button class="tab-btn" onclick="showTab('summary', this)">会员捐款汇总</button>
+                    </div>
+
+                    <!-- 待审核申请 -->
+                    <div class="tab-content active" id="pendingTab">
+                        <div class="applications-list" id="pendingApplications">
+                            <!-- 示例待审核申请 -->
+                            <div class="application-card" data-id="1">
+                                <div class="application-header">
+                                    <h3>张三</h3>
+                                    <span class="status-badge pending">待审核</span>
+                                </div>
+                                <div class="application-info">
+                                    <div class="info-row">
+                                        <span class="label">用户名:</span>
+                                        <span class="value">zhangsan123</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">邮箱:</span>
+                                        <span class="value">zhangsan@example.com</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">手机:</span>
+                                        <span class="value">138****5678</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">城市:</span>
+                                        <span class="value">北京</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">申请时间:</span>
+                                        <span class="value">2024-01-15 14:30</span>
+                                    </div>
+                                </div>
+                                <div class="application-details">
+                                    <div class="detail-section">
+                                        <h4>兴趣爱好:</h4>
+                                        <p>喜欢摄影、旅行、美食，希望能结识更多志同道合的朋友。</p>
+                                    </div>
+                                    <div class="detail-section">
+                                        <h4>申请理由:</h4>
+                                        <p>我是一个热爱生活的人，希望通过闲狗联合会认识更多有趣的朋友，参与各种有意义的活动，丰富自己的业余生活。我相信在这个平台上能够找到属于自己的圈子。</p>
+                                    </div>
+                                </div>
+                                <div class="application-actions">
+                                    <button class="btn btn-success" onclick="approveApplication(1)">通过申请</button>
+                                    <button class="btn btn-danger" onclick="rejectApplication(1)">拒绝申请</button>
+                                    <button class="btn btn-secondary" onclick="viewDetails(1)">查看详情</button>
+                                </div>
+                            </div>
+
+                            <div class="application-card" data-id="2">
+                                <div class="application-header">
+                                    <h3>李四</h3>
+                                    <span class="status-badge pending">待审核</span>
+                                </div>
+                                <div class="application-info">
+                                    <div class="info-row">
+                                        <span class="label">用户名:</span>
+                                        <span class="value">lisi456</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">邮箱:</span>
+                                        <span class="value">lisi@example.com</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">手机:</span>
+                                        <span class="value">139****1234</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">城市:</span>
+                                        <span class="value">上海</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">申请时间:</span>
+                                        <span class="value">2024-01-16 09:15</span>
+                                    </div>
+                                </div>
+                                <div class="application-details">
+                                    <div class="detail-section">
+                                        <h4>兴趣爱好:</h4>
+                                        <p>运动健身、读书、电影，喜欢户外活动。</p>
+                                    </div>
+                                    <div class="detail-section">
+                                        <h4>申请理由:</h4>
+                                        <p>作为一个新来上海的人，希望能通过闲狗联合会快速融入本地生活，结识新朋友。我性格开朗，乐于助人，相信能为社区带来正能量。</p>
+                                    </div>
+                                </div>
+                                <div class="application-actions">
+                                    <button class="btn btn-success" onclick="approveApplication(2)">通过申请</button>
+                                    <button class="btn btn-danger" onclick="rejectApplication(2)">拒绝申请</button>
+                                    <button class="btn btn-secondary" onclick="viewDetails(2)">查看详情</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 会员列表 -->
+                    <div class="tab-content" id="memberListTab">
+                        <div class="member-list-header">
+                            <h3>全部会员列表</h3>
+                            <div class="member-list-actions">
+                                <button class="btn btn-warning" onclick="showOneClickRegistrationModal()" style="background: #ff6b35; border-color: #ff6b35;">
+                                    <i>⚡</i> 一键注册会员
+                                </button>
+                                <input type="text" id="memberSearchInput" placeholder="搜索会员姓名或邮箱..." class="form-control" style="width: 250px; display: inline-block;">
+                                <select id="memberLevelFilter" class="form-control" style="width: 150px; display: inline-block;">
+                                    <option value="">全部等级</option>
+                                    <option value="1">1级</option>
+                                    <option value="2">2级</option>
+                                    <option value="3">3级</option>
+                                    <option value="4">4级</option>
+                                    <option value="5">5级</option>
+                                </select>
+                                <button class="btn btn-primary" onclick="searchMembers()">搜索</button>
+                                <button class="btn btn-secondary" onclick="resetMemberSearch()">重置</button>
+                                <button class="btn btn-success" onclick="exportMemberList()">导出列表</button>
+                            </div>
+                        </div>
+                        <div class="member-list-stats">
+                            <span>总会员数: <strong id="totalMemberCount">0</strong></span>
+                            <span>在线会员: <strong id="onlineMemberCount">0</strong></span>
+                            <span>活跃会员(30天内): <strong id="activeMemberCount">0</strong></span>
+                        </div>
+                        <div class="member-list-container">
+                            <table class="donations-table">
+                                <thead>
+                                    <tr>
+                                        <th>会员ID</th>
+                                        <th>用户名</th>
+                                        <th>职位</th>
+                                        <th>邮箱</th>
+                                        <th>手机</th>
+                                        <th>城市</th>
+                                        <th>会员等级</th>
+                                        <th>累计捐款</th>
+                                        <th>钱包余额</th>
+                                        <th>注册时间</th>
+                                        <th>最后活跃</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="memberListTableBody">
+                                    <!-- 会员列表将通过JS动态加载 -->
+                                </tbody>
+                            </table>
+                            <div id="memberListLoading" style="text-align: center; padding: 20px;">
+                                <p>正在加载会员列表...</p>
+                            </div>
+                            <div id="memberListEmpty" style="text-align: center; padding: 20px; display: none;">
+                                <p>暂无会员数据</p>
+                            </div>
+                        </div>
+                        <div class="member-list-pagination" style="margin-top: 20px; text-align: center;">
+                            <button class="btn btn-secondary" onclick="loadPreviousPage()" id="prevPageBtn">上一页</button>
+                            <span style="margin: 0 15px;">第 <span id="currentPage">1</span> 页</span>
+                            <button class="btn btn-secondary" onclick="loadNextPage()" id="nextPageBtn">下一页</button>
+                        </div>
+                    </div>
+
+                    <!-- 已通过会员 -->
+                    <div class="tab-content" id="approvedTab">
+                        <div class="members-list" id="approvedMembers">
+                            <div class="member-card">
+                                <div class="member-header">
+                                    <h3>王五</h3>
+                                    <span class="status-badge approved">已通过</span>
+                                </div>
+                                <div class="member-info">
+                                    <div class="info-row">
+                                        <span class="label">用户名:</span>
+                                        <span class="value">wangwu789</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">邮箱:</span>
+                                        <span class="value">wangwu@example.com</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">钱包余额:</span>
+                                        <span class="value wallet-balance" data-member-id="wangwu789">¥0.00</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">审核时间:</span>
+                                        <span class="value">2024-01-10 16:20</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">最后登录:</span>
+                                        <span class="value">2024-01-16 10:30</span>
+                                    </div>
+                                </div>
+                                <div class="member-actions">
+                                    <button class="btn btn-warning" onclick="suspendMember('wangwu789')">暂停账户</button>
+                                    <button class="btn btn-secondary" onclick="viewMemberDetails('wangwu789')">查看详情</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 已拒绝申请 -->
+                    <div class="tab-content" id="rejectedTab">
+                        <div class="rejected-list" id="rejectedApplications">
+                            <div class="application-card">
+                                <div class="application-header">
+                                    <h3>赵六</h3>
+                                    <span class="status-badge rejected">已拒绝</span>
+                                </div>
+                                <div class="application-info">
+                                    <div class="info-row">
+                                        <span class="label">拒绝原因:</span>
+                                        <span class="value">申请理由不充分</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">拒绝时间:</span>
+                                        <span class="value">2024-01-12 11:45</span>
+                                    </div>
+                                </div>
+                                <div class="application-actions">
+                                    <button class="btn btn-primary" onclick="reconsiderApplication('zhaoliu')">重新考虑</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 捐款管理 -->
+                    <div class="tab-content" id="donationsTab" style="display: none;">
+                        <div class="donations-list" id="donationsList">
+                            <h3>捐款记录</h3>
+                            <div class="donations-actions" style="margin: 10px 0; display: flex; gap: 8px; align-items: center;">
+                                <button class="btn btn-secondary" id="exportDonationsBtn">导出捐款记录</button>
+                                <button class="btn btn-secondary" id="importDonationsBtn">导入捐款记录</button>
+                                <input type="file" id="donationsImportFile" accept="application/json" style="display:none" />
+                                <span style="font-size: 12px; color: #666;">提示：当前为本地演示版，跨浏览器需导出/导入数据</span>
+                            </div>
+                            <table class="donations-table">
+                                <thead>
+                                    <tr>
+                                        <th>捐款人姓名</th>
+                                        <th>电子邮箱</th>
+                                        <th>捐款金额 (元)</th>
+                                        <th>捐款日期</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="donationsTableBody">
+                                    <!-- 捐款记录将通过JS动态插入 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 入会申请管理 -->
+                    <div class="tab-content" id="applicationsTab" style="display: none;">
+                        <h3>会员申请记录</h3>
+                        <table class="donations-table">
+                            <thead>
+                                <tr>
+                                    <th>申请人姓名</th>
+                                    <th>电子邮箱</th>
+                                    <th>会员类型</th>
+                                    <th>年费 (元)</th>
+                                    <th>支付方式</th>
+                                    <th>提交时间</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="applicationsTableBody">
+                                <!-- 申请记录将通过JS动态插入 -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 会员捐款汇总 -->
+                    <div class="tab-content" id="summaryTab" style="display: none;">
+                        <h3>会员列表（等级与捐款汇总）</h3>
+                        <table class="donations-table">
+                            <thead>
+                                <tr>
+                                    <th>会员姓名</th>
+                                    <th>电子邮箱</th>
+                                    <th>会员等级</th>
+                                    <th>累计捐款（元）</th>
+                                    <th>在线状态</th>
+                                    <th>最后活跃</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="donationSummaryBody">
+                                <!-- 汇总数据将通过JS动态插入 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 会员详情模态框 -->
+    <div id="memberDetailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>会员详细信息</h3>
+                <span class="close" onclick="closeMemberDetailModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="member-detail-info">
+                    <h4>基本信息</h4>
+                    <div class="info-row">
+                        <span class="label">用户名:</span>
+                        <span class="value" id="detailUsername">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">邮箱:</span>
+                        <span class="value" id="detailEmail">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">手机:</span>
+                        <span class="value" id="detailPhone">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">城市:</span>
+                        <span class="value" id="detailCity">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">注册时间:</span>
+                        <span class="value" id="detailJoinedAt">-</span>
+                    </div>
+                </div>
+                
+                <div class="member-wallet-info">
+                    <h4>钱包信息</h4>
+                    <div class="info-row">
+                        <span class="label">当前余额:</span>
+                        <span class="value" id="detailWalletBalance">¥0.00</span>
+                    </div>
+                    <div class="wallet-actions">
+                        <button class="btn btn-primary" onclick="showWalletTransactions()">查看交易记录</button>
+                    </div>
+                </div>
+                
+                <div class="member-transactions" id="memberTransactions" style="display: none;">
+                    <h4>交易记录</h4>
+                    <div class="transactions-list" id="transactionsList">
+                        <!-- 交易记录将在这里显示 -->
+                    </div>
+                    <button class="btn btn-secondary" onclick="hideWalletTransactions()">隐藏交易记录</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 重置密码模态框 -->
+    <div id="resetPasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>重置会员密码</h3>
+                <span class="close" onclick="closeResetPasswordModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="newPasswordInput">新密码：</label>
+                    <input type="password" id="newPasswordInput" class="form-control" placeholder="请输入新密码">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPasswordInput">确认密码：</label>
+                    <input type="password" id="confirmPasswordInput" class="form-control" placeholder="请再次输入新密码">
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" onclick="confirmResetPassword()">确认重置</button>
+                    <button class="btn btn-secondary" onclick="closeResetPasswordModal()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑会员信息模态框 -->
+    <div id="editMemberModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>编辑会员信息</h3>
+                <span class="close" onclick="closeEditMemberModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="editMemberUsername">用户名：</label>
+                    <input type="text" id="editMemberUsername" class="form-control" placeholder="请输入用户名">
+                </div>
+                <div class="form-group">
+                    <label for="editMemberEmail">邮箱：</label>
+                    <input type="email" id="editMemberEmail" class="form-control" placeholder="请输入邮箱">
+                </div>
+                <div class="form-group">
+                    <label for="editMemberPhone">手机：</label>
+                    <input type="tel" id="editMemberPhone" class="form-control" placeholder="请输入手机号码">
+                </div>
+                <div class="form-group">
+                    <label for="editMemberCity">城市：</label>
+                    <input type="text" id="editMemberCity" class="form-control" placeholder="请输入城市">
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" onclick="confirmEditMember()">保存修改</button>
+                    <button class="btn btn-secondary" onclick="closeEditMemberModal()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 修改密码模态框 -->
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>修改会员密码</h3>
+                <span class="close" onclick="closeChangePasswordModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="changePasswordMemberName">会员名称：</label>
+                    <input type="text" id="changePasswordMemberName" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">新密码：</label>
+                    <input type="password" id="newPassword" class="form-control" placeholder="请输入新密码">
+                </div>
+                <div class="form-group">
+                    <label for="confirmNewPassword">确认新密码：</label>
+                    <input type="password" id="confirmNewPassword" class="form-control" placeholder="请再次输入新密码">
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" onclick="confirmChangePassword()">确认修改</button>
+                    <button class="btn btn-secondary" onclick="closeChangePasswordModal()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 确认对话框模态框 -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="confirmModalTitle">确认操作</h3>
+                <span class="close" onclick="closeConfirmModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="confirmModalMessage">确定要执行此操作吗？</p>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" id="confirmModalOk">确定</button>
+                    <button class="btn btn-secondary" onclick="closeConfirmModal()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 消息提示模态框 -->
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="messageModalTitle">提示</h3>
+                <span class="close" onclick="closeMessageModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="messageModalMessage">操作完成</p>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" onclick="closeMessageModal()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 一键注册会员模态框 -->
+    <div id="oneClickRegistrationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>一键注册会员</h3>
+                <span class="close" onclick="closeOneClickRegistrationModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="registrationCount">注册数量：</label>
+                    <input type="number" id="registrationCount" class="form-control" value="1" min="1" max="10" placeholder="请输入注册数量(1-10)">
+                    <small style="color: #ccc;">一次最多可注册10个会员账号</small>
+                </div>
+                <div class="form-group">
+                    <label for="memberLevelSelect">默认会员等级：</label>
+                    <select id="memberLevelSelect" class="form-control">
+                        <option value="1">1级 - 普通会员</option>
+                        <option value="2">2级 - 银牌会员</option>
+                        <option value="3">3级 - 金牌会员</option>
+                        <option value="4">4级 - 铂金会员</option>
+                        <option value="5">5级 - 钻石会员</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="autoPassword">自动生成密码：</label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="text" id="autoPassword" class="form-control" readonly placeholder="点击生成密码">
+                        <button type="button" class="btn btn-secondary" onclick="generateRandomPassword()">生成</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="autoActivate" checked> 自动激活账号
+                    </label>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" onclick="confirmOneClickRegistration()">开始注册</button>
+                    <button class="btn btn-secondary" onclick="closeOneClickRegistrationModal()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设置职位模态框 -->
+    <div id="setPositionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>设置会员职位</h3>
+                <span class="close" onclick="closeSetPositionModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="memberPositionSelect">选择职位：</label>
+                    <select id="memberPositionSelect" class="form-control">
+                        <option value="">普通会员</option>
+                        <option value="前主席">🏛️ 前主席</option>
+                        <option value="主席">👑 主席</option>
+                        <option value="副主席">👑 副主席</option>
+                        <option value="财政">💰 财政</option>
+                        <option value="外交">🤝 外交</option>
+                        <option value="联谊会贷款">💳 联谊会贷款</option>
+                        <option value="理事">📋 理事</option>
+                        <option value="卫生部部长">🧹 卫生部部长</option>
+                        <option value="打手">💪 打手</option>
+                        <option value="车手">🏎️ 车手</option>
+                        <option value="自定义">✏️ 自定义职位</option>
+                    </select>
+                </div>
+                <div class="form-group" id="customPositionGroup" style="display: none;">
+                    <label for="customPositionInput">自定义职位名称：</label>
+                    <input type="text" id="customPositionInput" class="form-control" placeholder="请输入自定义职位名称">
+                </div>
+                <div class="form-group">
+                    <label for="positionStartDate">任职开始日期：</label>
+                    <input type="date" id="positionStartDate" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="positionEndDate">任职结束日期：</label>
+                    <input type="date" id="positionEndDate" class="form-control">
+                    <small style="color: #ccc;">留空表示长期任职</small>
+                </div>
+                <div class="form-group">
+                    <label for="positionNotes">备注：</label>
+                    <textarea id="positionNotes" class="form-control" rows="3" placeholder="职位相关备注信息"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" onclick="confirmSetPosition()">确认设置</button>
+                    <button class="btn btn-secondary" onclick="closeSetPositionModal()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 注册结果模态框 -->
+    <div id="registrationResultModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>注册结果</h3>
+                <span class="close" onclick="closeRegistrationResultModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="registrationResults" style="max-height: 400px; overflow-y: auto;">
+                    <!-- 注册结果将在这里显示 -->
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" onclick="closeRegistrationResultModal()">确定</button>
+                    <button class="btn btn-success" onclick="exportRegistrationResults()">导出结果</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>闲狗联合会</h3>
+                    <p>连接志同道合的朋友，创造美好的回忆</p>
+                </div>
+                <div class="footer-section">
+                    <h4>管理功能</h4>
+                    <ul>
+                        <li><a href="#" onclick="showTab('pending')">会员审核</a></li>
+                        <li><a href="#" onclick="showTab('approved')">会员管理</a></li>
+                        <li><a href="events.html">活动管理</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>联系方式</h4>
+                    <p>管理员邮箱: <a href="mailto:admin@xiangou9360.com">admin@xiangou9360.com</a></p>
+                    <p>技术支持: 017-512-0686</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 闲狗联合会. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/api-client.js?v=5"></script>
+    <script src="js/script.js?v=4"></script>
+    <script>
+        // 管理员认证功能
+        let currentAdmin = null;
+        let adminSessionTimeout = null;
+        let adminActivityMonitor = null;
+        let sessionTimerInterval = null;
+        const ADMIN_SESSION_DURATION = 2 * 60 * 60 * 1000; // 2小时
+        const ADMIN_WARNING_TIME = 1.5 * 60 * 60 * 1000; // 1.5小时提醒
+        const ADMIN_ACTIVITY_CHECK = 5 * 60 * 1000; // 5分钟检查一次活动状态
+
+        // 检查管理员登录状态
+        function checkAdminAuth() {
+            const savedAdmin = localStorage.getItem('currentAdmin');
+            const sessionExpiry = localStorage.getItem('adminSessionExpiry');
+            
+            if (savedAdmin && sessionExpiry) {
+                const now = new Date().getTime();
+                const expiry = parseInt(sessionExpiry);
+                
+                if (now < expiry) {
+                    currentAdmin = JSON.parse(savedAdmin);
+                    showAdminDashboard();
+                    resetAdminSessionTimeout();
+                    startActivityMonitoring();
+                    return true;
+                } else {
+                    // 会话过期，清除数据
+                    logoutAdmin();
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        // 开始活动监控
+        function startActivityMonitoring() {
+            // 监听用户活动
+            document.addEventListener('click', extendAdminSession);
+            document.addEventListener('keypress', extendAdminSession);
+            document.addEventListener('scroll', extendAdminSession);
+            
+            // 定期检查会话状态
+            if (adminActivityMonitor) {
+                clearInterval(adminActivityMonitor);
+            }
+            
+            adminActivityMonitor = setInterval(() => {
+                checkAdminSessionStatus();
+            }, ADMIN_ACTIVITY_CHECK);
+            
+            // 启动会话计时器
+            startSessionTimer();
+        }
+
+        // 停止活动监控
+        function stopActivityMonitoring() {
+            document.removeEventListener('click', extendAdminSession);
+            document.removeEventListener('keypress', extendAdminSession);
+            document.removeEventListener('scroll', extendAdminSession);
+            
+            if (adminActivityMonitor) {
+                clearInterval(adminActivityMonitor);
+                adminActivityMonitor = null;
+            }
+            
+            // 停止会话计时器
+            if (sessionTimerInterval) {
+                clearInterval(sessionTimerInterval);
+                sessionTimerInterval = null;
+            }
+        }
+
+        // 启动会话计时器
+        function startSessionTimer() {
+            if (sessionTimerInterval) {
+                clearInterval(sessionTimerInterval);
+            }
+            
+            sessionTimerInterval = setInterval(() => {
+                updateSessionTimer();
+            }, 1000); // 每秒更新一次
+        }
+
+        // 更新会话计时器显示
+        function updateSessionTimer() {
+            const sessionExpiry = localStorage.getItem('adminSessionExpiry');
+            if (!sessionExpiry) return;
+            
+            const now = new Date().getTime();
+            const expiry = parseInt(sessionExpiry);
+            const timeRemaining = expiry - now;
+            
+            if (timeRemaining <= 0) {
+                // 会话已过期
+                document.getElementById('sessionStatus').textContent = '🔴';
+                document.getElementById('sessionTime').textContent = '已过期';
+                document.querySelector('.session-status').classList.add('danger');
+                document.querySelector('.session-status').classList.remove('warning');
+                return;
+            }
+            
+            // 格式化剩余时间
+            const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+            
+            const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('sessionTime').textContent = timeString;
+            
+            // 更新状态指示器
+            if (timeRemaining <= 30 * 60 * 1000) {
+                // 少于30分钟显示警告
+                document.getElementById('sessionStatus').textContent = '🟡';
+                document.querySelector('.session-status').classList.add('warning');
+                document.querySelector('.session-status').classList.remove('danger');
+            } else if (timeRemaining <= 10 * 60 * 1000) {
+                // 少于10分钟显示危险
+                document.getElementById('sessionStatus').textContent = '🔴';
+                document.querySelector('.session-status').classList.add('danger');
+                document.querySelector('.session-status').classList.remove('warning');
+            } else {
+                // 正常状态
+                document.getElementById('sessionStatus').textContent = '🟢';
+                document.querySelector('.session-status').classList.remove('warning', 'danger');
+            }
+        }
+
+        // 检查管理员会话状态
+        function checkAdminSessionStatus() {
+            const sessionExpiry = localStorage.getItem('adminSessionExpiry');
+            if (!sessionExpiry) {
+                logoutAdmin();
+                return;
+            }
+            
+            const now = new Date().getTime();
+            const expiry = parseInt(sessionExpiry);
+            const timeRemaining = expiry - now;
+            
+            if (timeRemaining <= 0) {
+                // 会话已过期
+                logoutAdmin();
+            } else if (timeRemaining <= 10 * 60 * 1000) {
+                // 少于10分钟，自动延长会话
+                extendAdminSession();
+            }
+            
+            // 定期验证服务器端会话（每30分钟）
+            if (currentAdmin && currentAdmin.sessionToken && Math.random() < 0.1) {
+                validateServerAdminSession();
+            }
+        }
+
+        // 验证服务器端管理员会话
+        async function validateServerAdminSession() {
+            if (!currentAdmin || !currentAdmin.sessionToken) return;
+            
+            try {
+                const result = await apiClient.validateAdminSession(currentAdmin.sessionToken);
+                if (!result.success) {
+                    console.warn('服务器端会话验证失败:', result.message);
+                    // 如果服务器端会话已过期，执行本地登出
+                    if (result.message.includes('过期') || result.message.includes('无效')) {
+                        logoutAdmin();
+                    }
+                }
+            } catch (error) {
+                console.error('验证服务器端会话失败:', error);
+                // 网络错误时不执行登出，保持本地会话
+            }
+        }
+
+        // 延长管理员会话
+        function extendAdminSession() {
+            const sessionExpiry = localStorage.getItem('adminSessionExpiry');
+            if (!sessionExpiry) return;
+            
+            const now = new Date().getTime();
+            const expiry = parseInt(sessionExpiry);
+            const timeRemaining = expiry - now;
+            
+            // 如果剩余时间少于30分钟，延长会话
+            if (timeRemaining < 30 * 60 * 1000) {
+                const newExpiry = now + ADMIN_SESSION_DURATION;
+                localStorage.setItem('adminSessionExpiry', newExpiry.toString());
+                
+                // 重置超时提醒
+                resetAdminSessionTimeout();
+                
+                console.log('管理员会话已自动延长');
+            }
+        }
+
+        // 管理员登录
+        async function loginAdmin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('adminUsername').value.trim();
+            const password = document.getElementById('adminPassword').value.trim();
+            
+            if (!username || !password) {
+                showMessageDialog('提示', '请输入管理员账号和密码');
+                return;
+            }
+            
+            try {
+                // 使用服务器端管理员登录API
+                const result = await apiClient.adminLogin(username, password);
+                
+                if (result.success) {
+                    currentAdmin = {
+                        username: username,
+                        role: 'admin',
+                        loginTime: new Date().toISOString(),
+                        sessionToken: result.token // 使用服务器返回的令牌
+                    };
+                    
+                    // 保存到本地存储
+                    localStorage.setItem('currentAdmin', JSON.stringify(currentAdmin));
+                    
+                    // 设置会话过期时间（2小时）
+                    const expiry = new Date().getTime() + ADMIN_SESSION_DURATION;
+                    localStorage.setItem('adminSessionExpiry', expiry.toString());
+                    
+                    // 显示管理面板
+                    showAdminDashboard();
+                    resetAdminSessionTimeout();
+                    startActivityMonitoring();
+                    
+                    // 清空表单
+                    document.getElementById('adminLoginForm').reset();
+                    
+                    showMessageDialog('提示', '管理员登录成功！');
+                    
+                    console.log('管理员会话已启动，将在2小时后过期');
+                } else {
+                    showMessageDialog('提示', result.message || '管理员账号或密码错误！');
+                }
+            } catch (error) {
+                console.error('管理员登录失败:', error);
+                showMessageDialog('提示', '登录失败，请重试');
+            }
+        }
+
+        // 显示管理员面板
+        function showAdminDashboard() {
+            document.getElementById('adminLogin').style.display = 'none';
+            document.getElementById('adminDashboard').style.display = 'block';
+            
+            // 加载初始数据
+            loadDashboardData();
+        }
+
+        // 显示登录界面
+        function showAdminLogin() {
+            document.getElementById('adminLogin').style.display = 'block';
+            document.getElementById('adminDashboard').style.display = 'none';
+        }
+
+        // 重置管理员会话超时
+        function resetAdminSessionTimeout() {
+            // 清除之前的超时
+            if (adminSessionTimeout) {
+                clearTimeout(adminSessionTimeout);
+            }
+            
+            // 设置新的超时（1.5小时后提醒）
+            adminSessionTimeout = setTimeout(() => {
+                showConfirmDialog('会话即将过期', '管理员会话即将过期（30分钟后），是否继续保持登录？', () => {
+                    // 用户选择保持登录，延长会话
+                    const newExpiry = new Date().getTime() + ADMIN_SESSION_DURATION;
+                    localStorage.setItem('adminSessionExpiry', newExpiry.toString());
+                    resetAdminSessionTimeout();
+                    console.log('管理员会话已手动延长');
+                }, () => {
+                    // 用户选择退出
+                    logoutAdmin();
+                });
+            }, ADMIN_WARNING_TIME); // 1.5小时
+        }
+
+        // 管理员退出登录
+        async function logoutAdmin() {
+            // 停止活动监控
+            stopActivityMonitoring();
+            
+            try {
+                // 如果有会话令牌，调用服务器端退出
+                if (currentAdmin && currentAdmin.sessionToken) {
+                    await apiClient.adminLogout(currentAdmin.sessionToken);
+                }
+            } catch (error) {
+                console.error('服务器端退出登录失败:', error);
+                // 即使服务器端退出失败，也要继续本地清理
+            }
+            
+            // 清除本地存储的管理员数据
+            localStorage.removeItem('currentAdmin');
+            localStorage.removeItem('adminSessionExpiry');
+            
+            // 清除会话超时
+            if (adminSessionTimeout) {
+                clearTimeout(adminSessionTimeout);
+                adminSessionTimeout = null;
+            }
+            
+            currentAdmin = null;
+            
+            // 显示登录界面
+            showAdminLogin();
+            
+            showMessageDialog('提示', '管理员已退出登录');
+            console.log('管理员会话已结束');
+        }
+
+        // 加载仪表板数据
+        function loadDashboardData() {
+            // 这里可以加载各种统计数据
+            console.log('加载管理仪表板数据...');
+        }
+
+        // 页面加载时检查管理员登录状态
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查是否已经登录
+            if (!checkAdminAuth()) {
+                showAdminLogin();
+            }
+            
+            // 绑定登录表单提交事件
+            document.getElementById('adminLoginForm').addEventListener('submit', loginAdmin);
+        });
+
+        // 后台钱包管理功能
+        let currentMemberId = null;
+        let currentMemberForPosition = null;
+        let currentMemberForPassword = null;
+
+        // 加载会员钱包余额
+        async function loadMemberWalletBalances() {
+            const walletElements = document.querySelectorAll('.wallet-balance');
+            for (const element of walletElements) {
+                const memberId = element.getAttribute('data-member-id');
+                if (memberId) {
+                    try {
+                        const result = await apiClient.getWallet(memberId);
+                        if (result.success) {
+                            element.textContent = `¥${result.wallet.balance.toFixed(2)}`;
+                        }
+                    } catch (error) {
+                        console.error(`加载会员 ${memberId} 钱包余额失败:`, error);
+                        element.textContent = '¥0.00';
+                    }
+                }
+            }
+        }
+
+        // 查看会员详情
+        async function viewMemberDetails(memberId) {
+            currentMemberId = memberId;
+            try {
+                // 获取会员信息
+                const members = await apiClient.getMembers();
+                const member = members.find(m => m.username === memberId || m.id === memberId);
+                
+                if (member) {
+                    // 填充基本信息
+                    document.getElementById('detailUsername').textContent = member.username || '-';
+                    document.getElementById('detailEmail').textContent = member.email || '-';
+                    document.getElementById('detailPhone').textContent = member.phone || '-';
+                    document.getElementById('detailCity').textContent = member.city || '-';
+                    document.getElementById('detailJoinedAt').textContent = member.joined_at ? new Date(member.joined_at).toLocaleString('zh-CN') : '-';
+                    
+                    // 获取钱包信息
+                    const walletResult = await apiClient.getWallet(member.id);
+                    if (walletResult.success) {
+                        document.getElementById('detailWalletBalance').textContent = `¥${walletResult.wallet.balance.toFixed(2)}`;
+                    }
+                    
+                    // 显示模态框
+                    document.getElementById('memberDetailModal').style.display = 'block';
+                } else {
+                    showMessageDialog('提示', '未找到会员信息');
+                }
+            } catch (error) {
+                console.error('加载会员详情失败:', error);
+                showMessageDialog('提示', '加载会员详情失败，请重试');
+            }
+        }
+
+        // 关闭会员详情模态框
+        function closeMemberDetailModal() {
+            document.getElementById('memberDetailModal').style.display = 'none';
+            document.getElementById('memberTransactions').style.display = 'none';
+            document.getElementById('transactionsList').innerHTML = '';
+            currentMemberId = null;
+        }
+
+        // 显示钱包交易记录
+        async function showWalletTransactions() {
+            if (!currentMemberId) return;
+            
+            try {
+                const members = await apiClient.getMembers();
+                const member = members.find(m => m.username === currentMemberId || m.id === currentMemberId);
+                
+                if (member) {
+                    const transactionsResult = await apiClient.getWalletTransactions(member.id);
+                    const transactionsList = document.getElementById('transactionsList');
+                    
+                    if (transactionsResult.success && transactionsResult.transactions.length > 0) {
+                        transactionsList.innerHTML = transactionsResult.transactions.map(transaction => `
+                            <div class="transaction-item ${transaction.type}">
+                                <div class="transaction-info">
+                                    <div class="transaction-type ${transaction.type}">
+                                        ${transaction.type === 'deposit' ? '💰 充值' : '💸 提款'}
+                                    </div>
+                                    <div class="transaction-date">${new Date(transaction.created_at).toLocaleString('zh-CN')}</div>
+                                    <div class="transaction-description">${transaction.description || ''}</div>
+                                </div>
+                                <div class="transaction-amount ${transaction.type}">
+                                    ${transaction.type === 'deposit' ? '+' : '-'}¥${transaction.amount.toFixed(2)}
+                                </div>
+                            </div>
+                        `).join('');
+                    } else {
+                        transactionsList.innerHTML = '<p style="text-align: center; color: #888;">暂无交易记录</p>';
+                    }
+                    
+                    document.getElementById('memberTransactions').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('加载交易记录失败:', error);
+                showMessageDialog('提示', '加载交易记录失败，请重试');
+            }
+        }
+
+        // 隐藏钱包交易记录
+        function hideWalletTransactions() {
+            document.getElementById('memberTransactions').style.display = 'none';
+        }
+
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const memberDetailModal = document.getElementById('memberDetailModal');
+            const editMemberModal = document.getElementById('editMemberModal');
+            const resetPasswordModal = document.getElementById('resetPasswordModal');
+            
+            if (event.target === memberDetailModal) {
+                closeMemberDetailModal();
+            }
+            if (event.target === editMemberModal) {
+                closeEditMemberModal();
+            }
+            if (event.target === resetPasswordModal) {
+                closeResetPasswordModal();
+            }
+        }
+
+        // 页面加载完成后加载钱包余额
+        document.addEventListener('DOMContentLoaded', function() {
+            // 延迟加载钱包余额，确保页面完全加载
+            setTimeout(() => {
+                loadMemberWalletBalances();
+            }, 1000);
+        });
+
+        // 会员列表管理功能
+        let allMembers = [];
+        let filteredMembers = [];
+        let currentPage = 1;
+        const membersPerPage = 20;
+
+        // 加载会员列表
+        async function loadMemberList() {
+            try {
+                document.getElementById('memberListLoading').style.display = 'block';
+                document.getElementById('memberListEmpty').style.display = 'none';
+                document.getElementById('memberListTableBody').innerHTML = '';
+
+                const members = await apiClient.getMembers();
+                allMembers = members;
+                filteredMembers = members;
+                
+                // 获取每个会员的额外信息（捐款总额、钱包余额等）
+                await Promise.all(members.map(async (member) => {
+                    try {
+                        // 获取捐款总额
+                        const donationsResult = await apiClient.getUserDonations(member.id);
+                        member.totalDonations = donationsResult.success ? donationsResult.total_amount : 0;
+                        
+                        // 获取钱包余额
+                        const walletResult = await apiClient.getWallet(member.id);
+                        member.walletBalance = walletResult.success ? walletResult.wallet.balance : 0;
+                        
+                        // 确定状态（简化处理）
+                        member.status = 'active'; // 默认为活跃状态
+                        member.lastActive = member.joined_at; // 使用注册时间作为最后活跃时间
+                        
+                    } catch (error) {
+                        console.error(`获取会员 ${member.id} 额外信息失败:`, error);
+                        member.totalDonations = 0;
+                        member.walletBalance = 0;
+                        member.status = 'active';
+                        member.lastActive = member.joined_at;
+                    }
+                }));
+
+                displayMemberList();
+                updateMemberStats();
+                
+            } catch (error) {
+                console.error('加载会员列表失败:', error);
+                document.getElementById('memberListLoading').style.display = 'none';
+                document.getElementById('memberListEmpty').style.display = 'block';
+                document.getElementById('memberListEmpty').innerHTML = '<p>加载会员列表失败，请重试</p>';
+            }
+        }
+
+        // 显示会员列表
+        function displayMemberList() {
+            const startIndex = (currentPage - 1) * membersPerPage;
+            const endIndex = startIndex + membersPerPage;
+            const pageMembers = filteredMembers.slice(startIndex, endIndex);
+            
+            const tbody = document.getElementById('memberListTableBody');
+            tbody.innerHTML = '';
+            
+            if (pageMembers.length === 0) {
+                document.getElementById('memberListEmpty').style.display = 'block';
+                document.getElementById('memberListLoading').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('memberListEmpty').style.display = 'none';
+            document.getElementById('memberListLoading').style.display = 'none';
+            
+            pageMembers.forEach(member => {
+                const row = document.createElement('tr');
+                const statusClass = member.status === 'active' ? 'active' : member.status === 'suspended' ? 'suspended' : 'inactive';
+                const statusText = member.status === 'active' ? '活跃' : member.status === 'suspended' ? '暂停' : '离线';
+                
+                row.innerHTML = `
+                    <td>${member.id}</td>
+                    <td>${member.username}</td>
+                    <td><span class="member-position position-${member.position || '普通会员'}">${member.position || '普通会员'}</span></td>
+                    <td>${member.email || '-'}</td>
+                    <td>${member.phone || '-'}</td>
+                    <td>${member.city || '-'}</td>
+                    <td><span class="member-level">${member.level || '1级'}</span></td>
+                    <td>¥${member.totalDonations.toFixed(2)}</td>
+                    <td>¥${member.walletBalance.toFixed(2)}</td>
+                    <td>${new Date(member.joined_at).toLocaleDateString('zh-CN')}</td>
+                    <td>${new Date(member.lastActive).toLocaleDateString('zh-CN')}</td>
+                    <td><span class="member-status ${statusClass}">${statusText}</span></td>
+                    <td>
+                        <button class="member-action-btn view" onclick="viewMemberDetails('${member.id}')" title="查看详情">👁️</button>
+                        <button class="member-action-btn edit" onclick="editMember('${member.id}')" title="编辑">✏️</button>
+                        <button class="member-action-btn position" onclick="setMemberPosition('${member.id}')" title="设置职位">👑</button>
+                        <button class="member-action-btn password" onclick="changeMemberPassword('${member.id}')" title="修改密码">🔑</button>
+                        <button class="member-action-btn suspend" onclick="toggleMemberStatus('${member.id}')" title="${member.status === 'suspended' ? '恢复' : '暂停'}">${member.status === 'suspended' ? '▶️' : '⏸️'}</button>
+                        <button class="member-action-btn delete" onclick="deleteMember('${member.id}')" title="删除">🗑️</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // 更新分页按钮状态
+            document.getElementById('currentPage').textContent = currentPage;
+            document.getElementById('prevPageBtn').disabled = currentPage === 1;
+            document.getElementById('nextPageBtn').disabled = endIndex >= filteredMembers.length;
+        }
+
+        // 更新会员统计
+        function updateMemberStats() {
+            document.getElementById('totalMemberCount').textContent = filteredMembers.length;
+            
+            const onlineCount = filteredMembers.filter(m => m.status === 'active').length;
+            document.getElementById('onlineMemberCount').textContent = onlineCount;
+            
+            // 计算30天内活跃的会员（简化处理）
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            const activeCount = filteredMembers.filter(m => new Date(m.lastActive) > thirtyDaysAgo).length;
+            document.getElementById('activeMemberCount').textContent = activeCount;
+        }
+
+        // 搜索会员
+        function searchMembers() {
+            const searchTerm = document.getElementById('memberSearchInput').value.toLowerCase();
+            const levelFilter = document.getElementById('memberLevelFilter').value;
+            
+            filteredMembers = allMembers.filter(member => {
+                const matchesSearch = !searchTerm || 
+                    member.username.toLowerCase().includes(searchTerm) ||
+                    (member.email && member.email.toLowerCase().includes(searchTerm)) ||
+                    (member.phone && member.phone.includes(searchTerm));
+                
+                const matchesLevel = !levelFilter || (member.level || '1级') === levelFilter + '级';
+                
+                return matchesSearch && matchesLevel;
+            });
+            
+            currentPage = 1;
+            displayMemberList();
+            updateMemberStats();
+        }
+
+        // 重置搜索
+        function resetMemberSearch() {
+            document.getElementById('memberSearchInput').value = '';
+            document.getElementById('memberLevelFilter').value = '';
+            filteredMembers = allMembers;
+            currentPage = 1;
+            displayMemberList();
+            updateMemberStats();
+        }
+
+        // 分页功能
+        function loadPreviousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayMemberList();
+            }
+        }
+
+        function loadNextPage() {
+            const maxPage = Math.ceil(filteredMembers.length / membersPerPage);
+            if (currentPage < maxPage) {
+                currentPage++;
+                displayMemberList();
+            }
+        }
+
+        // 导出会员列表
+        function exportMemberList() {
+            const csvContent = [
+                ['会员ID', '用户名', '职位', '邮箱', '手机', '城市', '会员等级', '累计捐款', '钱包余额', '注册时间', '状态'],
+                ...filteredMembers.map(member => [
+                    member.id,
+                    member.username,
+                    member.position || '普通会员',
+                    member.email || '',
+                    member.phone || '',
+                    member.city || '',
+                    member.level || '1级',
+                    member.totalDonations.toFixed(2),
+                    member.walletBalance.toFixed(2),
+                    new Date(member.joined_at).toLocaleDateString('zh-CN'),
+                    member.status === 'active' ? '活跃' : member.status === 'suspended' ? '暂停' : '离线'
+                ])
+            ].map(row => row.join(',')).join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `会员列表_${new Date().toLocaleDateString('zh-CN')}.csv`;
+            link.click();
+        }
+
+        // 编辑会员（简化处理）
+        let currentEditingMember = null;
+
+        function editMember(memberId) {
+            const member = allMembers.find(m => m.id === memberId);
+            if (member) {
+                currentEditingMember = member;
+                
+                // 填充当前会员信息到表单
+                document.getElementById('editMemberUsername').value = member.username || '';
+                document.getElementById('editMemberEmail').value = member.email || '';
+                document.getElementById('editMemberPhone').value = member.phone || '';
+                document.getElementById('editMemberCity').value = member.city || '';
+                
+                // 显示编辑模态框
+                document.getElementById('editMemberModal').style.display = 'block';
+            }
+        }
+
+        // 确认编辑会员
+        function confirmEditMember() {
+            if (!currentEditingMember) return;
+            
+            const newUsername = document.getElementById('editMemberUsername').value.trim();
+            const newEmail = document.getElementById('editMemberEmail').value.trim();
+            const newPhone = document.getElementById('editMemberPhone').value.trim();
+            const newCity = document.getElementById('editMemberCity').value.trim();
+            
+            if (!newUsername) {
+                showMessageDialog('错误', '用户名不能为空！');
+                return;
+            }
+            
+            // 更新会员信息
+            currentEditingMember.username = newUsername;
+            currentEditingMember.email = newEmail;
+            currentEditingMember.phone = newPhone;
+            currentEditingMember.city = newCity;
+            
+            // 这里应该调用API更新会员信息
+            showMessageDialog('成功', '会员信息已更新（本地演示）');
+            
+            // 刷新显示
+            displayMemberList();
+            
+            // 关闭模态框
+            closeEditMemberModal();
+        }
+
+        // 关闭编辑会员模态框
+        function closeEditMemberModal() {
+            document.getElementById('editMemberModal').style.display = 'none';
+            currentEditingMember = null;
+        }
+
+        // 自定义确认对话框
+        function showConfirmDialog(title, message, onConfirm) {
+            document.getElementById('confirmModalTitle').textContent = title;
+            document.getElementById('confirmModalMessage').textContent = message;
+            document.getElementById('confirmModal').style.display = 'block';
+            
+            // 设置确认按钮的点击事件
+            const confirmBtn = document.getElementById('confirmModalOk');
+            confirmBtn.onclick = function() {
+                closeConfirmModal();
+                if (onConfirm) onConfirm();
+            };
+        }
+
+        // 关闭确认对话框
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').style.display = 'none';
+        }
+
+        // 自定义消息提示框
+        function showMessageDialog(title, message) {
+            document.getElementById('messageModalTitle').textContent = title;
+            document.getElementById('messageModalMessage').textContent = message;
+            document.getElementById('messageModal').style.display = 'block';
+        }
+
+        // 关闭消息提示框
+        function closeMessageModal() {
+            document.getElementById('messageModal').style.display = 'none';
+        }
+
+        // 一键注册会员相关功能
+        function showOneClickRegistrationModal() {
+            document.getElementById('oneClickRegistrationModal').style.display = 'block';
+            // 默认生成一个密码
+            generateRandomPassword();
+        }
+
+        function closeOneClickRegistrationModal() {
+            document.getElementById('oneClickRegistrationModal').style.display = 'none';
+            // 清空表单
+            document.getElementById('registrationCount').value = '1';
+            document.getElementById('memberLevelSelect').value = '1';
+            document.getElementById('autoPassword').value = '';
+            document.getElementById('autoActivate').checked = true;
+        }
+
+        function closeRegistrationResultModal() {
+            document.getElementById('registrationResultModal').style.display = 'none';
+            document.getElementById('registrationResults').innerHTML = '';
+        }
+
+        // 生成随机密码
+        function generateRandomPassword() {
+            const length = 12;
+            const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%';
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+            document.getElementById('autoPassword').value = password;
+            return password;
+        }
+
+        // 生成会员号
+        function generateMemberNumber() {
+            const timestamp = Date.now().toString().slice(-6);
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return 'M' + timestamp + random;
+        }
+
+        // 确认一键注册
+        async function confirmOneClickRegistration() {
+            const count = parseInt(document.getElementById('registrationCount').value);
+            const level = parseInt(document.getElementById('memberLevelSelect').value);
+            const password = document.getElementById('autoPassword').value;
+            const autoActivate = document.getElementById('autoActivate').checked;
+
+            if (!password) {
+                showMessageDialog('提示', '请生成密码或输入密码');
+                return;
+            }
+
+            if (count < 1 || count > 10) {
+                showMessageDialog('提示', '注册数量必须在1-10之间');
+                return;
+            }
+
+            showConfirmDialog('确认注册', `确定要注册 ${count} 个会员账号吗？`, async () => {
+                closeOneClickRegistrationModal();
+                await performBatchRegistration(count, level, password, autoActivate);
+            });
+        }
+
+        // 执行批量注册
+        async function performBatchRegistration(count, level, password, autoActivate) {
+            const results = [];
+            const registrationResults = document.getElementById('registrationResults');
+            
+            registrationResults.innerHTML = '<div style="text-align: center; padding: 20px;"><p>正在注册会员，请稍候...</p></div>';
+            document.getElementById('registrationResultModal').style.display = 'block';
+
+            for (let i = 0; i < count; i++) {
+                try {
+                    const memberNumber = generateMemberNumber();
+                    const username = `用户${memberNumber}`;
+                    const email = `user_${memberNumber}@xianhou.com`;
+                    
+                    const memberData = {
+                        username: username,
+                        email: email,
+                        phone: '',
+                        city: '未知',
+                        level: level,
+                        status: autoActivate ? 'active' : 'pending',
+                        password: password,
+                        memberNumber: memberNumber
+                    };
+
+                    // 使用现有的会员注册API
+                    const result = await apiClient.request('/api/members', {
+                        method: 'POST',
+                        body: JSON.stringify(memberData)
+                    });
+
+                    if (result.success) {
+                        results.push({
+                            success: true,
+                            username: username,
+                            email: email,
+                            memberNumber: memberNumber,
+                            password: password,
+                            message: '注册成功'
+                        });
+                    } else {
+                        results.push({
+                            success: false,
+                            username: username,
+                            error: result.message || '注册失败'
+                        });
+                    }
+                } catch (error) {
+                    results.push({
+                        success: false,
+                        error: error.message || '网络错误'
+                    });
+                }
+
+                // 更新进度
+                registrationResults.innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <p>注册进度: ${i + 1}/${count}</p>
+                        <div style="width: 100%; background: rgba(255,255,255,0.1); border-radius: 10px; height: 8px; margin-top: 10px;">
+                            <div style="width: ${((i + 1) / count) * 100}%; background: #00ff88; height: 100%; border-radius: 10px; transition: width 0.3s;"></div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 显示最终结果
+            displayRegistrationResults(results);
+            
+            // 刷新会员列表
+            if (results.some(r => r.success)) {
+                loadMembers();
+            }
+        }
+
+        // 显示注册结果
+        function displayRegistrationResults(results) {
+            const registrationResults = document.getElementById('registrationResults');
+            const successCount = results.filter(r => r.success).length;
+            const failCount = results.filter(r => !r.success).length;
+
+            let html = `
+                <div style="margin-bottom: 20px; padding: 15px; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 4px solid #00ff88;">
+                    <h4 style="color: #00ff88; margin: 0 0 10px 0;">注册统计</h4>
+                    <p style="margin: 5px 0;">成功: <strong style="color: #00ff88;">${successCount}</strong></p>
+                    <p style="margin: 5px 0;">失败: <strong style="color: #ff6b6b;">${failCount}</strong></p>
+                </div>
+            `;
+
+            if (successCount > 0) {
+                html += `
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: #00ff88;">成功注册的会员</h4>
+                        <div style="max-height: 200px; overflow-y: auto;">
+                `;
+                results.filter(r => r.success).forEach(result => {
+                    html += `
+                        <div style="padding: 10px; margin: 5px 0; background: rgba(0,255,136,0.05); border-radius: 5px; border-left: 3px solid #00ff88;">
+                            <strong>${result.username}</strong> (${result.memberNumber})<br>
+                            <small style="color: #ccc;">邮箱: ${result.email}</small><br>
+                            <small style="color: #ccc;">密码: ${result.password}</small>
+                        </div>
+                    `;
+                });
+                html += '</div></div>';
+            }
+
+            if (failCount > 0) {
+                html += `
+                    <div>
+                        <h4 style="color: #ff6b6b;">注册失败的账号</h4>
+                        <div style="max-height: 150px; overflow-y: auto;">
+                `;
+                results.filter(r => !r.success).forEach(result => {
+                    html += `
+                        <div style="padding: 10px; margin: 5px 0; background: rgba(255,107,107,0.05); border-radius: 5px; border-left: 3px solid #ff6b6b;">
+                            <strong>${result.username || '未知'}</strong><br>
+                            <small style="color: #ff6b6b;">错误: ${result.error}</small>
+                        </div>
+                    `;
+                });
+                html += '</div></div>';
+            }
+
+            registrationResults.innerHTML = html;
+        }
+
+        // 导出注册结果
+        function exportRegistrationResults() {
+            const resultsText = document.getElementById('registrationResults').innerText;
+            const blob = new Blob([resultsText], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `会员注册结果_${new Date().toLocaleDateString('zh-CN')}.txt`;
+            link.click();
+        }
+
+        // 职位设置相关功能
+        let currentMemberForPosition = null;
+
+        function closeSetPositionModal() {
+            document.getElementById('setPositionModal').style.display = 'none';
+            document.getElementById('memberPositionSelect').value = '';
+            document.getElementById('customPositionInput').value = '';
+            document.getElementById('customPositionGroup').style.display = 'none';
+            document.getElementById('positionStartDate').value = '';
+            document.getElementById('positionEndDate').value = '';
+            document.getElementById('positionNotes').value = '';
+            currentMemberForPosition = null;
+        }
+
+        // 监听职位选择变化
+        document.addEventListener('DOMContentLoaded', function() {
+            const positionSelect = document.getElementById('memberPositionSelect');
+            if (positionSelect) {
+                positionSelect.addEventListener('change', function() {
+                    const customGroup = document.getElementById('customPositionGroup');
+                    if (this.value === '自定义') {
+                        customGroup.style.display = 'block';
+                    } else {
+                        customGroup.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        // 设置会员职位
+        function setMemberPosition(memberId) {
+            const member = allMembers.find(m => m.id === memberId);
+            if (!member) {
+                showMessageDialog('错误', '未找到会员信息');
+                return;
+            }
+
+            currentMemberForPosition = member;
+            
+            // 填充当前职位信息（如果有）
+            if (member.position) {
+                const predefinedPositions = ['前主席', '主席', '副主席', '财政', '外交', '联谊会贷款', '理事', '卫生部部长', '打手', '车手'];
+                if (predefinedPositions.includes(member.position)) {
+                    document.getElementById('memberPositionSelect').value = member.position;
+                    document.getElementById('customPositionGroup').style.display = 'none';
+                } else {
+                    document.getElementById('memberPositionSelect').value = '自定义';
+                    document.getElementById('customPositionInput').value = member.position;
+                    document.getElementById('customPositionGroup').style.display = 'block';
+                }
+            } else {
+                document.getElementById('memberPositionSelect').value = '';
+                document.getElementById('customPositionGroup').style.display = 'none';
+            }
+
+            // 设置默认开始日期为今天
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('positionStartDate').value = today;
+            
+            // 清空其他字段
+            document.getElementById('positionEndDate').value = '';
+            document.getElementById('positionNotes').value = '';
+
+            document.getElementById('setPositionModal').style.display = 'block';
+        }
+
+        // 确认设置职位
+        async function confirmSetPosition() {
+            if (!currentMemberForPosition) {
+                showMessageDialog('错误', '未选择会员');
+                return;
+            }
+
+            const positionSelect = document.getElementById('memberPositionSelect').value;
+            let finalPosition = '';
+
+            if (positionSelect === '自定义') {
+                finalPosition = document.getElementById('customPositionInput').value.trim();
+                if (!finalPosition) {
+                    showMessageDialog('提示', '请输入自定义职位名称');
+                    return;
+                }
+            } else {
+                finalPosition = positionSelect;
+            }
+
+            const startDate = document.getElementById('positionStartDate').value;
+            const endDate = document.getElementById('positionEndDate').value;
+            const notes = document.getElementById('positionNotes').value;
+
+            if (!startDate) {
+                showMessageDialog('提示', '请选择任职开始日期');
+                return;
+            }
+
+            const positionData = {
+                position: finalPosition,
+                positionStartDate: startDate,
+                positionEndDate: endDate || null,
+                positionNotes: notes
+            };
+
+            try {
+                const result = await apiClient.request(`/api/members/${currentMemberForPosition.id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(positionData)
+                });
+
+                if (result.success) {
+                    showMessageDialog('成功', '职位设置成功！');
+                    
+                    // 更新本地数据 - 确保对象存在
+                    if (currentMemberForPosition) {
+                        currentMemberForPosition.position = finalPosition;
+                        currentMemberForPosition.positionStartDate = startDate;
+                        currentMemberForPosition.positionEndDate = endDate || null;
+                        currentMemberForPosition.positionNotes = notes;
+                    }
+                    
+                    // 刷新会员列表
+                    displayMemberList();
+                    
+                    // 最后关闭模态框（会清空currentMemberForPosition）
+                    closeSetPositionModal();
+                } else {
+                    showMessageDialog('错误', result.message || '职位设置失败');
+                }
+            } catch (error) {
+                console.error('设置职位失败:', error);
+                showMessageDialog('错误', '网络错误，请重试');
+            }
+        }
+
+        // 修改会员密码
+        function changeMemberPassword(memberId) {
+            const member = allMembers.find(m => m.id === memberId);
+            if (!member) {
+                showMessageDialog('错误', '未找到会员信息');
+                return;
+            }
+
+            currentMemberForPassword = member;
+            
+            // 填充会员名称
+            document.getElementById('changePasswordMemberName').value = member.username;
+            
+            // 清空密码输入框
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmNewPassword').value = '';
+            
+            // 显示模态框
+            document.getElementById('changePasswordModal').style.display = 'block';
+        }
+
+        // 关闭修改密码模态框
+        function closeChangePasswordModal() {
+            document.getElementById('changePasswordModal').style.display = 'none';
+            currentMemberForPassword = null;
+        }
+
+        // 确认修改密码
+        async function confirmChangePassword() {
+            if (!currentMemberForPassword) {
+                showMessageDialog('错误', '未选择会员');
+                return;
+            }
+
+            const newPassword = document.getElementById('newPassword').value.trim();
+            const confirmPassword = document.getElementById('confirmNewPassword').value.trim();
+
+            // 验证输入
+            if (!newPassword) {
+                showMessageDialog('错误', '请输入新密码');
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                showMessageDialog('错误', '密码长度至少为6位');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                showMessageDialog('错误', '两次输入的密码不一致');
+                return;
+            }
+
+            // 获取管理员令牌
+            const currentAdmin = JSON.parse(localStorage.getItem('currentAdmin') || '{}');
+            if (!currentAdmin.sessionToken) {
+                showMessageDialog('错误', '管理员会话已过期，请重新登录');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/admin/change-password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        token: currentAdmin.sessionToken,
+                        memberId: currentMemberForPassword.id,
+                        newPassword: newPassword
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showMessageDialog('成功', '密码修改成功！');
+                    closeChangePasswordModal();
+                } else {
+                    showMessageDialog('错误', result.message || '密码修改失败');
+                }
+            } catch (error) {
+                console.error('修改密码失败:', error);
+                showMessageDialog('错误', '网络错误，请重试');
+            }
+        }
+
+        // 获取职位显示样式
+        function getPositionStyle(position) {
+            const positionStyles = {
+                '前主席': { icon: '🏛️', color: '#FFD700' },
+                '主席': { icon: '👑', color: '#FF6B35' },
+                '副主席': { icon: '👑', color: '#FF8E53' },
+                '财政': { icon: '💰', color: '#00FF88' },
+                '外交': { icon: '🤝', color: '#87CEEB' },
+                '联谊会贷款': { icon: '💳', color: '#9370DB' },
+                '理事': { icon: '📋', color: '#4682B4' },
+                '卫生部部长': { icon: '🧹', color: '#32CD32' },
+                '打手': { icon: '💪', color: '#DC143C' },
+                '车手': { icon: '🏎️', color: '#FF1493' }
+            };
+
+            return positionStyles[position] || { icon: '👤', color: '#CCCCCC' };
+        }
+
+        // 切换会员状态
+        function toggleMemberStatus(memberId) {
+            const member = allMembers.find(m => m.id === memberId);
+            if (member) {
+                const newStatus = member.status === 'suspended' ? 'active' : 'suspended';
+                const statusText = newStatus === 'suspended' ? '暂停' : '活跃';
+                
+                showConfirmDialog(
+                    '确认操作',
+                    `确定要将会员状态更新为: ${statusText}吗？`,
+                    function() {
+                        member.status = newStatus;
+                        // 这里应该调用API更新会员状态
+                        showMessageDialog('成功', `会员状态已更新为: ${statusText}（本地演示）`);
+                        displayMemberList();
+                    }
+                );
+            }
+        }
+
+        // 删除会员（简化处理）
+        function deleteMember(memberId) {
+            showConfirmDialog(
+                '删除确认',
+                '确定要删除该会员吗？此操作不可恢复。',
+                function() {
+                    const index = allMembers.findIndex(m => m.id === memberId);
+                    if (index > -1) {
+                        allMembers.splice(index, 1);
+                        filteredMembers = allMembers;
+                        // 这里应该调用API删除会员
+                        showMessageDialog('成功', '会员已删除（本地演示）');
+                        displayMemberList();
+                        updateMemberStats();
+                    }
+                }
+            );
+        }
+
+        // 修改原有的showTab函数，在切换到会员列表时加载数据
+        const originalShowTab = window.showTab;
+        window.showTab = function(tabName, element) {
+            // 调用原有的showTab函数
+            if (originalShowTab) {
+                originalShowTab(tabName, element);
+            } else {
+                // 如果没有原函数，实现基本的标签切换
+                const tabs = document.querySelectorAll('.tab-content');
+                tabs.forEach(tab => tab.style.display = 'none');
+                document.getElementById(tabName + 'Tab').style.display = 'block';
+                
+                const buttons = document.querySelectorAll('.tab-btn');
+                buttons.forEach(btn => btn.classList.remove('active'));
+                element.classList.add('active');
+            }
+            
+            // 如果是会员列表标签，加载数据
+            if (tabName === 'memberList') {
+                loadMemberList();
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会员大家族聊天 - 闲狗联合会（JLP）</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body id="chatPage">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>闲狗联合会（JLP）</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="events.html">活动展示</a></li>
+                    <li><a href="member.html">会员中心</a></li>
+                    <li><a href="login.html">登录</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>会员大家族聊天</h1>
+            <p>所有已通过会员自动加入，支持在线状态显示</p>
+        </div>
+    </section>
+
+    <section class="chat-section">
+        <div class="container" style="display:flex; gap:24px; align-items:flex-start;">
+            <div class="chat-sidebar" style="flex:0 0 280px;">
+                <h3>会员列表</h3>
+                <ul id="chatMembers" style="list-style:none; padding:0; margin:0;"></ul>
+            </div>
+            <div class="chat-main" style="flex:1;">
+                <div class="chat-window" id="chatWindow" style="height:420px; overflow:auto; border:1px solid #eee; border-radius:8px; padding:12px; background:#fafafa;"></div>
+                <div class="chat-input" style="margin-top:12px; display:flex; gap:8px;">
+                    <input type="text" id="chatMessageInput" placeholder="输入消息..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:6px;">
+                    <a href="#" class="btn" id="chatSendBtn">发送</a>
+                </div>
+                <p id="chatHint" style="margin-top:8px; color:#666;">提示：本地演示版，消息与在线状态在同源浏览器标签间同步。</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 闲狗联合会. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js?v=4"></script>
+</body>
+</html>

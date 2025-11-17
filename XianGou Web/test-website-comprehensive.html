@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网站功能综合测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-item {
+            margin: 10px 0;
+            padding: 10px;
+            border-left: 4px solid #ddd;
+            background: #fafafa;
+        }
+        .success { border-left-color: #28a745; background: #d4edda; }
+        .error { border-left-color: #dc3545; background: #f8d7da; }
+        .warning { border-left-color: #ffc107; background: #fff3cd; }
+        .info { border-left-color: #17a2b8; background: #d1ecf1; }
+        button {
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+        }
+        button:hover { background: #0056b3; }
+        .result { margin-top: 10px; font-size: 14px; }
+        .log { 
+            background: #f8f9fa; 
+            border: 1px solid #dee2e6; 
+            border-radius: 4px;
+            padding: 10px; 
+            margin-top: 10px; 
+            font-family: monospace; 
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        h1, h2 { color: #333; }
+        .critical { background: #ffebee; border: 2px solid #f44336; }
+        .major { background: #fff3e0; border: 2px solid #ff9800; }
+        .minor { background: #f3e5f5; border: 2px solid #9c27b0; }
+    </style>
+</head>
+<body>
+    <h1>🐛 网站功能综合测试与Bug检查</h1>
+    
+    <div class="stats">
+        <div class="stat-item">
+            <div class="stat-number" id="totalTests">0</div>
+            <div class="stat-label">总测试数</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="passedTests">0</div>
+            <div class="stat-label">通过测试</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="failedTests">0</div>
+            <div class="stat-label">失败测试</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="bugsFound">0</div>
+            <div class="stat-label">发现Bug</div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔧 服务器连接测试</h2>
+        <button onclick="testServerConnection()">测试服务器连接</button>
+        <button onclick="testAllAPIs()">测试所有API端点</button>
+        <div id="serverTestResults" class="result"></div>
+    </div>
+
+    <div class="test-grid">
+        <div class="test-section">
+            <h2>👤 用户认证测试</h2>
+            <div class="test-item">
+                <strong>会员登录测试</strong>
+                <button onclick="testMemberLogin()">测试会员登录</button>
+                <div id="memberLoginResult" class="result"></div>
+            </div>
+            <div class="test-item">
+                <strong>管理员登录测试</strong>
+                <button onclick="testAdminLogin()">测试管理员登录</button>
+                <div id="adminLoginResult" class="result"></div>
+            </div>
+            <div class="test-item">
+                <strong>会话验证测试</strong>
+                <button onclick="testSessionValidation()">测试会话验证</button>
+                <div id="sessionValidationResult" class="result"></div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>💰 钱包功能测试</h2>
+            <div class="test-item">
+                <strong>钱包查询测试</strong>
+                <button onclick="testWalletQuery()">测试钱包查询</button>
+                <div id="walletQueryResult" class="result"></div>
+            </div>
+            <div class="test-item">
+                <strong>钱包充值测试</strong>
+                <button onclick="testWalletDeposit()">测试钱包充值</button>
+                <div id="walletDepositResult" class="result"></div>
+            </div>
+            <div class="test-item">
+                <strong>交易记录测试</strong>
+                <button onclick="testTransactionHistory()">测试交易记录</button>
+                <div id="transactionHistoryResult" class="result"></div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>👥 会员管理测试</h2>
+            <div class="test-item">
+                <strong>会员列表测试</strong>
+                <button onclick="testMemberList()">测试会员列表</button>
+                <div id="memberListResult" class="result"></div>
+            </div>
+            <div class="test-item">
+                <strong>会员注册测试</strong>
+                <button onclick="testMemberRegistration()">测试会员注册</button>
+                <div id="memberRegistrationResult" class="result"></div>
+            </div>
+            <div class="test-item">
+                <strong>密码修改测试</strong>
+                <button onclick="testPasswordChange()">测试密码修改</button>
+                <div id="passwordChangeResult" class="result"></div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🔍 数据一致性测试</h2>
+            <div class="test-item">
+                <strong>数据同步测试</strong>
+                <button onclick="testDataSync()">测试数据同步</button>
+                <div id="dataSyncResult" class="result"></div>
+            </div>
+            <div class="test-item">
+                <strong>用户状态测试</strong>
+                <button onclick="testUserStatus()">测试用户状态</button>
+                <div id="userStatusResult" class="result"></div>
+            </div>
+            <div class="test-item">
+                <strong>申请处理测试</strong>
+                <button onclick="testApplicationProcessing()">测试申请处理</button>
+                <div id="applicationProcessingResult" class="result"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>⚠️ 发现的Bug汇总</h2>
+        <div id="bugsSummary">
+            <p>点击上方测试按钮开始检查...</p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📋 测试日志</h2>
+        <div id="testLog" class="log"></div>
+        <button onclick="clearLog()">清空日志</button>
+        <button onclick="exportLog()">导出日志</button>
+    </div>
+
+    <script>
+        class WebsiteTester {
+            constructor() {
+                this.testResults = [];
+                this.bugs = [];
+                this.adminToken = null;
+                this.memberToken = null;
+                this.testMemberId = '1763062451525';
+                this.testMemberPassword = 'testnewpass123';
+                this.baseURL = window.location.origin;
+            }
+
+            log(message, type = 'info') {
+                const timestamp = new Date().toLocaleTimeString();
+                const logEntry = `[${timestamp}] ${message}`;
+                const logDiv = document.getElementById('testLog');
+                const color = {
+                    'info': '#17a2b8',
+                    'success': '#28a745',
+                    'error': '#dc3545',
+                    'warning': '#ffc107'
+                }[type] || '#666';
+                
+                logDiv.innerHTML += `<div style="color: ${color}">${logEntry}</div>`;
+                logDiv.scrollTop = logDiv.scrollHeight;
+            }
+
+            updateStats() {
+                const total = this.testResults.length;
+                const passed = this.testResults.filter(r => r.status === 'success').length;
+                const failed = this.testResults.filter(r => r.status === 'error').length;
+                const bugs = this.bugs.length;
+
+                document.getElementById('totalTests').textContent = total;
+                document.getElementById('passedTests').textContent = passed;
+                document.getElementById('failedTests').textContent = failed;
+                document.getElementById('bugsFound').textContent = bugs;
+            }
+
+            addTestResult(category, testName, status, message, details = '') {
+                const result = { category, testName, status, message, details, timestamp: new Date() };
+                this.testResults.push(result);
+                this.log(`${testName}: ${message}`, status);
+                this.updateStats();
+                return result;
+            }
+
+            addBug(severity, title, description, details = '') {
+                const bug = { severity, title, description, details, timestamp: new Date() };
+                this.bugs.push(bug);
+                this.log(`发现Bug: ${title} (${severity})`, 'error');
+                this.updateBugsSummary();
+                return bug;
+            }
+
+            updateBugsSummary() {
+                const bugsDiv = document.getElementById('bugsSummary');
+                if (this.bugs.length === 0) {
+                    bugsDiv.innerHTML = '<div class="test-item success">✅ 暂未发现严重Bug</div>';
+                    return;
+                }
+
+                const criticalBugs = this.bugs.filter(b => b.severity === 'critical');
+                const majorBugs = this.bugs.filter(b => b.severity === 'major');
+                const minorBugs = this.bugs.filter(b => b.severity === 'minor');
+
+                let html = '';
+                
+                if (criticalBugs.length > 0) {
+                    html += '<h3>🔴 严重Bug</h3>';
+                    criticalBugs.forEach(bug => {
+                        html += `<div class="test-item critical">
+                            <strong>${bug.title}</strong><br>
+                            ${bug.description}<br>
+                            <small>${bug.details}</small>
+                        </div>`;
+                    });
+                }
+
+                if (majorBugs.length > 0) {
+                    html += '<h3>🟡 主要Bug</h3>';
+                    majorBugs.forEach(bug => {
+                        html += `<div class="test-item major">
+                            <strong>${bug.title}</strong><br>
+                            ${bug.description}<br>
+                            <small>${bug.details}</small>
+                        </div>`;
+                    });
+                }
+
+                if (minorBugs.length > 0) {
+                    html += '<h3>🟣 轻微Bug</h3>';
+                    minorBugs.forEach(bug => {
+                        html += `<div class="test-item minor">
+                            <strong>${bug.title}</strong><br>
+                            ${bug.description}<br>
+                            <small>${bug.details}</small>
+                        </div>`;
+                    });
+                }
+
+                bugsDiv.innerHTML = html;
+            }
+
+            async testServerConnection() {
+                this.log('开始测试服务器连接...', 'info');
+                const resultDiv = document.getElementById('serverTestResults');
+                
+                try {
+                    const response = await fetch(`${this.baseURL}/api/data`);
+                    if (response.ok) {
+                        this.addTestResult('服务器', '服务器连接', 'success', '服务器连接正常');
+                        resultDiv.innerHTML = '<div class="test-item success">✅ 服务器连接正常</div>';
+                        return true;
+                    } else {
+                        this.addTestResult('服务器', '服务器连接', 'error', `服务器返回错误: ${response.status}`);
+                        resultDiv.innerHTML = `<div class="test-item error">❌ 服务器连接失败: ${response.status}</div>`;
+                        return false;
+                    }
+                } catch (error) {
+                    this.addTestResult('服务器', '服务器连接', 'error', `服务器连接失败: ${error.message}`);
+                    this.addBug('critical', '服务器连接失败', '无法连接到后端服务器', error.message);
+                    resultDiv.innerHTML = `<div class="test-item error">❌ 服务器连接失败: ${error.message}</div>`;
+                    return false;
+                }
+            }
+
+            async testMemberLogin() {
+                this.log('开始测试会员登录...', 'info');
+                const resultDiv = document.getElementById('memberLoginResult');
+                
+                try {
+                    const response = await fetch(`${this.baseURL}/api/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            memberId: this.testMemberId,
+                            password: this.testMemberPassword
+                        })
+                    });
+
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        this.memberToken = data.user;
+                        this.addTestResult('用户认证', '会员登录', 'success', '会员登录成功');
+                        resultDiv.innerHTML = '<div class="test-item success">✅ 会员登录成功</div>';
+                        return true;
+                    } else {
+                        this.addTestResult('用户认证', '会员登录', 'error', `会员登录失败: ${data.message}`);
+                        resultDiv.innerHTML = `<div class="test-item error">❌ 会员登录失败: ${data.message}</div>`;
+                        return false;
+                    }
+                } catch (error) {
+                    this.addTestResult('用户认证', '会员登录', 'error', `会员登录异常: ${error.message}`);
+                    this.addBug('critical', '会员登录失败', '会员登录功能异常', error.message);
+                    resultDiv.innerHTML = `<div class="test-item error">❌ 会员登录异常: ${error.message}</div>`;
+                    return false;
+                }
+            }
+
+            async testAdminLogin() {
+                this.log('开始测试管理员登录...', 'info');
+                const resultDiv = document.getElementById('adminLoginResult');
+                
+                try {
+                    const response = await fetch(`${this.baseURL}/api/admin/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            username: 'admin',
+                            password: 'admin123'
+                        })
+                    });
+
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        this.adminToken = data.token;
+                        this.addTestResult('用户认证', '管理员登录', 'success', '管理员登录成功');
+                        resultDiv.innerHTML = '<div class="test-item success">✅ 管理员登录成功</div>';
+                        return true;
+                    } else {
+                        this.addTestResult('用户认证', '管理员登录', 'error', `管理员登录失败: ${data.message}`);
+                        resultDiv.innerHTML = `<div class="test-item error">❌ 管理员登录失败: ${data.message}</div>`;
+                        return false;
+                    }
+                } catch (error) {
+                    this.addTestResult('用户认证', '管理员登录', 'error', `管理员登录异常: ${error.message}`);
+                    this.addBug('critical', '管理员登录失败', '管理员登录功能异常', error.message);
+                    resultDiv.innerHTML = `<div class="test-item error">❌ 管理员登录异常: ${error.message}</div>`;
+                    return false;
+                }
+            }
+
+            async testWalletQuery() {
+                this.log('开始测试钱包查询...', 'info');
+                const resultDiv = document.getElementById('walletQueryResult');
+                
+                try {
+                    const response = await fetch(`${this.baseURL}/api/wallet/${this.testMemberId}`);
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        this.addTestResult('钱包功能', '钱包查询', 'success', `钱包查询成功，余额: ¥${data.wallet.balance}`);
+                        resultDiv.innerHTML = `<div class="test-item success">✅ 钱包查询成功，余额: ¥${data.wallet.balance}</div>`;
+                        return true;
+                    } else {
+                        this.addTestResult('钱包功能', '钱包查询', 'error', `钱包查询失败: ${data.message}`);
+                        resultDiv.innerHTML = `<div class="test-item error">❌ 钱包查询失败: ${data.message}</div>`;
+                        return false;
+                    }
+                } catch (error) {
+                    this.addTestResult('钱包功能', '钱包查询', 'error', `钱包查询异常: ${error.message}`);
+                    this.addBug('major', '钱包查询失败', '钱包查询功能异常', error.message);
+                    resultDiv.innerHTML = `<div class="test-item error">❌ 钱包查询异常: ${error.message}</div>`;
+                    return false;
+                }
+            }
+
+            async testWalletDeposit() {
+                this.log('开始测试钱包充值...', 'info');
+                const resultDiv = document.getElementById('walletDepositResult');
+                
+                try {
+                    const response = await fetch(`${this.baseURL}/api/wallet/deposit`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            user_id: this.testMemberId,
+                            amount: 100,
+                            description: '测试充值'
+                        })
+                    });
+
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        this.addTestResult('钱包功能', '钱包充值', 'success', `钱包充值成功: ¥${data.transaction.amount}`);
+                        resultDiv.innerHTML = `<div class="test-item success">✅ 钱包充值成功: ¥${data.transaction.amount}</div>`;
+                        return true;
+                    } else {
+                        this.addTestResult('钱包功能', '钱包充值', 'error', `钱包充值失败: ${data.message}`);
+                        resultDiv.innerHTML = `<div class="test-item error">❌ 钱包充值失败: ${data.message}</div>`;
+                        return false;
+                    }
+                } catch (error) {
+                    this.addTestResult('钱包功能', '钱包充值', 'error', `钱包充值异常: ${error.message}`);
+                    this.addBug('major', '钱包充值失败', '钱包充值功能异常', error.message);
+                    resultDiv.innerHTML = `<div class="test-item error">❌ 钱包充值异常: ${error.message}</div>`;
+                    return false;
+                }
+            }
+
+            async testAll() {
+                this.log('开始全面测试...', 'info');
+                
+                // 基础连接测试
+                await this.testServerConnection();
+                
+                // 认证测试
+                await this.testMemberLogin();
+                await this.testAdminLogin();
+                
+                // 钱包测试
+                await this.testWalletQuery();
+                await this.testWalletDeposit();
+                
+                this.log('全面测试完成', 'success');
+                this.log(`发现 ${this.bugs.length} 个Bug，${this.testResults.filter(r => r.status === 'error').length} 个测试失败`, 'warning');
+            }
+
+            clearLog() {
+                document.getElementById('testLog').innerHTML = '';
+            }
+
+            exportLog() {
+                const logContent = document.getElementById('testLog').innerText;
+                const blob = new Blob([logContent], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `website-test-log-${new Date().toISOString().slice(0, 10)}.txt`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        // 初始化测试器
+        const tester = new WebsiteTester();
+
+        // 运行全面测试
+        window.onload = function() {
+            tester.log('测试页面加载完成', 'success');
+            // 可以选择自动运行所有测试
+            // tester.testAll();
+        };
+
+        // 导出函数供按钮调用
+        function testServerConnection() { tester.testServerConnection(); }
+        function testMemberLogin() { tester.testMemberLogin(); }
+        function testAdminLogin() { tester.testAdminLogin(); }
+        function testWalletQuery() { tester.testWalletQuery(); }
+        function testWalletDeposit() { tester.testWalletDeposit(); }
+        function testAll() { tester.testAll(); }
+        function clearLog() { tester.clearLog(); }
+        function exportLog() { tester.exportLog(); }
+    </script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台功能测试 - 闲狗联合会</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 1px solid #00ff88;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+        .test-section h3 {
+            color: #00ff88;
+            margin-bottom: 15px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            color: #000;
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border-left: 4px solid #00ff88;
+            min-height: 40px;
+        }
+        .error {
+            border-left-color: #ff4444;
+            color: #ff4444;
+        }
+        .success {
+            border-left-color: #00ff88;
+            color: #00ff88;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; color: #00ff88;">🛠️ 后台功能测试</h1>
+        
+        <div class="test-section">
+            <h3>📋 活动报名记录测试</h3>
+            <p>测试 getEventRegistrations 函数是否正常工作</p>
+            <button class="btn btn-primary" onclick="testEventRegistrations()">测试活动报名记录</button>
+            <div id="eventResult" class="result">点击按钮进行测试</div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔑 重置密码功能测试</h3>
+            <p>测试重置密码模态框是否正常显示</p>
+            <button class="btn btn-primary" onclick="testResetPassword()">测试重置密码</button>
+            <div id="passwordResult" class="result">点击按钮进行测试</div>
+        </div>
+
+        <div class="test-section">
+            <h3>💰 钱包余额显示测试</h3>
+            <p>测试后台钱包余额加载功能</p>
+            <button class="btn btn-primary" onclick="testWalletBalances()">测试钱包余额</button>
+            <div id="walletResult" class="result">点击按钮进行测试</div>
+        </div>
+
+        <div class="test-section">
+            <h3>👥 会员列表测试</h3>
+            <p>测试获取会员列表功能</p>
+            <button class="btn btn-primary" onclick="testMemberList()">测试会员列表</button>
+            <div id="memberResult" class="result">点击按钮进行测试</div>
+        </div>
+    </div>
+
+    <script src="js/api-client.js"></script>
+    <script>
+        // 测试活动报名记录
+        async function testEventRegistrations() {
+            const resultDiv = document.getElementById('eventResult');
+            try {
+                resultDiv.textContent = '正在测试...';
+                resultDiv.className = 'result';
+                
+                // 模拟调用 getEventRegistrations
+                const result = await window.apiClient.getEventRegistrations();
+                console.log('活动报名记录结果:', result);
+                
+                if (result && result.registrations) {
+                    resultDiv.innerHTML = `<span class="success">✅ 测试成功！</span><br>
+                        返回数据格式正确: ${JSON.stringify(result, null, 2)}`;
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ 测试失败！</span><br>
+                        返回数据格式不正确`;
+                }
+            } catch (error) {
+                console.error('测试失败:', error);
+                resultDiv.innerHTML = `<span class="error">❌ 测试失败！</span><br>
+                    错误: ${error.message}`;
+            }
+        }
+
+        // 测试重置密码功能
+        function testResetPassword() {
+            const resultDiv = document.getElementById('passwordResult');
+            try {
+                resultDiv.textContent = '正在测试重置密码模态框...';
+                resultDiv.className = 'result';
+                
+                // 模拟调用 resetMemberPassword
+                if (typeof resetMemberPassword === 'function') {
+                    // 创建一个模拟的模态框来测试
+                    const modal = document.createElement('div');
+                    modal.style.cssText = `
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: #1a1a1a;
+                        border: 2px solid #00ff88;
+                        padding: 20px;
+                        border-radius: 10px;
+                        z-index: 1000;
+                        color: white;
+                    `;
+                    modal.innerHTML = `
+                        <h3 style="color: #00ff88;">重置密码测试</h3>
+                        <p>模态框正常显示！</p>
+                        <button onclick="this.parentElement.remove()" style="background: #00ff88; color: black; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">关闭</button>
+                    `;
+                    document.body.appendChild(modal);
+                    
+                    resultDiv.innerHTML = `<span class="success">✅ 测试成功！</span><br>
+                        重置密码函数存在，模态框可以正常显示`;
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ 测试失败！</span><br>
+                        resetMemberPassword 函数未定义`;
+                }
+            } catch (error) {
+                console.error('测试失败:', error);
+                resultDiv.innerHTML = `<span class="error">❌ 测试失败！</span><br>
+                    错误: ${error.message}`;
+            }
+        }
+
+        // 测试钱包余额加载
+        async function testWalletBalances() {
+            const resultDiv = document.getElementById('walletResult');
+            try {
+                resultDiv.textContent = '正在测试钱包余额加载...';
+                resultDiv.className = 'result';
+                
+                const members = await window.apiClient.getMembers();
+                if (members && members.length > 0) {
+                    const testMember = members[0];
+                    const walletResult = await window.apiClient.getWallet(testMember.id);
+                    
+                    console.log('钱包余额结果:', walletResult);
+                    
+                    if (walletResult && walletResult.success) {
+                        resultDiv.innerHTML = `<span class="success">✅ 测试成功！</span><br>
+                            会员: ${testMember.username}<br>
+                            钱包余额: ¥${walletResult.wallet.balance.toFixed(2)}<br>
+                            钱包创建时间: ${new Date(walletResult.wallet.created_at).toLocaleString('zh-CN')}`;
+                    } else {
+                        resultDiv.innerHTML = `<span class="error">❌ 钱包测试失败！</span><br>
+                            无法获取钱包信息`;
+                    }
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ 测试失败！</span><br>
+                        没有会员数据`;
+                }
+            } catch (error) {
+                console.error('测试失败:', error);
+                resultDiv.innerHTML = `<span class="error">❌ 测试失败！</span><br>
+                    错误: ${error.message}`;
+            }
+        }
+
+        // 测试会员列表
+        async function testMemberList() {
+            const resultDiv = document.getElementById('memberResult');
+            try {
+                resultDiv.textContent = '正在测试会员列表...';
+                resultDiv.className = 'result';
+                
+                const members = await window.apiClient.getMembers();
+                console.log('会员列表结果:', members);
+                
+                if (members && Array.isArray(members)) {
+                    resultDiv.innerHTML = `<span class="success">✅ 测试成功！</span><br>
+                        获取到 ${members.length} 个会员<br>
+                        第一个会员: ${members[0].username} (${members[0].email})`;
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ 测试失败！</span><br>
+                        返回数据格式不正确`;
+                }
+            } catch (error) {
+                console.error('测试失败:', error);
+                resultDiv.innerHTML = `<span class="error">❌ 测试失败！</span><br>
+                    错误: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

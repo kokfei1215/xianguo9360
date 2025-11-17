@@ -1,0 +1,903 @@
+{
+  "applications": [
+    {
+      "agreement": "on",
+      "city": "麻痹",
+      "confirmPassword": "888888",
+      "created_at": "2025-11-14T02:19:53.515346",
+      "email": "test888@gmail.com",
+      "id": "1763057993515",
+      "interests": "",
+      "password": "888888",
+      "phone": "+60118885469",
+      "realName": "把停车",
+      "reason": "昂随地博哈伦裤是几百就送i过后就会失去比USB手机哦ii哈哈",
+      "status": "approved",
+      "submitTime": "2025/11/14 02:19:53",
+      "username": "test888"
+    }
+  ],
+  "donations": [
+    {
+      "amount": 12.34,
+      "created_at": "2025-11-14T02:12:07.335113",
+      "email": "test@example.com",
+      "id": "1763057527335",
+      "method": "alipay",
+      "name": "Test"
+    },
+    {
+      "amount": 5000,
+      "created_at": "2025-11-14T14:10:44.746426",
+      "id": "1763100644746",
+      "message": "",
+      "payment_method": "wallet",
+      "status": "completed",
+      "user_id": "1763058089968"
+    },
+    {
+      "user_id": "1763062451525",
+      "amount": 500,
+      "message": "",
+      "payment_method": "wallet",
+      "status": "completed",
+      "id": "1763190766052",
+      "created_at": "2025-11-15T15:12:46.052472"
+    },
+    {
+      "user_id": "1763062451525",
+      "amount": 500,
+      "message": "",
+      "payment_method": "wallet",
+      "status": "completed",
+      "id": "1763190768182",
+      "created_at": "2025-11-15T15:12:48.182059"
+    },
+    {
+      "user_id": "1763062451525",
+      "amount": 5000,
+      "message": "",
+      "payment_method": "wallet",
+      "status": "completed",
+      "id": "1763190779819",
+      "created_at": "2025-11-15T15:12:59.819648"
+    }
+  ],
+  "events": [],
+  "members": [
+    {
+      "email": "test888@gmail.com",
+      "id": "1763058089968",
+      "joined_at": "2025-11-13T18:21:29.968Z",
+      "password": "888888",
+      "realName": "把停车",
+      "username": "test888",
+      "position": "前主席",
+      "positionStartDate": "2025-11-15",
+      "positionEndDate": null,
+      "positionNotes": ""
+    },
+    {
+      "auto_registered": true,
+      "city": "",
+      "email": "auto_1763061397@jlp.temp",
+      "id": "1763061397924",
+      "interests": "",
+      "joined_at": "2025-11-14T03:16:37.924307",
+      "phone": "",
+      "realName": "",
+      "status": "active",
+      "username": "可爱小熊7475",
+      "position": "主席",
+      "positionStartDate": "2025-11-15",
+      "positionEndDate": null,
+      "positionNotes": ""
+    },
+    {
+      "auto_registered": true,
+      "city": "北京",
+      "email": "test@example.com",
+      "id": "1763062451525",
+      "interests": "",
+      "joined_at": "2025-11-14T03:34:11.525551",
+      "phone": "13812345678",
+      "realName": "",
+      "status": "active",
+      "username": "温柔小鹿9517",
+      "position": "副主席",
+      "positionStartDate": "2025-11-15",
+      "positionEndDate": null,
+      "positionNotes": ""
+    },
+    {
+      "auto_registered": true,
+      "city": "",
+      "email": "auto_1763062724@jlp.temp",
+      "id": "1763062724892",
+      "interests": "",
+      "joined_at": "2025-11-14T03:38:44.892082",
+      "phone": "",
+      "realName": "",
+      "status": "active",
+      "username": "可爱小鱼1947",
+      "position": "财政",
+      "positionStartDate": "2025-11-15",
+      "positionEndDate": null,
+      "positionNotes": ""
+    },
+    {
+      "auto_registered": true,
+      "city": "北京",
+      "email": "test@example.com",
+      "id": "1763062725043",
+      "interests": "",
+      "joined_at": "2025-11-14T03:38:45.043052",
+      "phone": "13812345678",
+      "realName": "",
+      "status": "active",
+      "username": "机智小狗9027",
+      "position": "财政",
+      "positionStartDate": "2025-11-15",
+      "positionEndDate": null,
+      "positionNotes": ""
+    },
+    {
+      "auto_registered": true,
+      "city": "ipoh",
+      "email": "llakit20@gmail.com",
+      "id": "1763063052959",
+      "interests": "",
+      "joined_at": "2025-11-14T03:44:12.959497",
+      "phone": "+60123456789",
+      "realName": "",
+      "status": "active",
+      "username": "友好小虎7385",
+      "position": "外交",
+      "positionStartDate": "2025-11-15",
+      "positionEndDate": null,
+      "positionNotes": ""
+    },
+    {
+      "auto_registered": true,
+      "city": "kl",
+      "email": "pltgy@gmail.com",
+      "id": "1763063979025",
+      "interests": "",
+      "joined_at": "2025-11-14T03:59:39.025171",
+      "phone": "+60123546789",
+      "realName": "",
+      "status": "active",
+      "username": "勇敢小马8730",
+      "position": "外交",
+      "positionStartDate": "2025-11-15",
+      "positionEndDate": null,
+      "positionNotes": ""
+    },
+    {
+      "username": "用户M437288647",
+      "email": "user_M437288647@xianhou.com",
+      "phone": "",
+      "city": "未知",
+      "level": 1,
+      "status": "active",
+      "password": "#M!xlImaeStT",
+      "memberNumber": "M437288647",
+      "id": "1763189437291",
+      "joined_at": "2025-11-15T14:50:37.291518",
+      "position": "联谊会贷款",
+      "positionStartDate": "2025-11-15",
+      "positionEndDate": null,
+      "positionNotes": ""
+    },
+    {
+      "username": "用户M437294295",
+      "email": "user_M437294295@xianhou.com",
+      "phone": "",
+      "city": "未知",
+      "level": 1,
+      "status": "active",
+      "password": "#M!xlImaeStT",
+      "memberNumber": "M437294295",
+      "id": "1763189437295",
+      "joined_at": "2025-11-15T14:50:37.295927",
+      "position": "理事",
+      "positionStartDate": "2025-11-15",
+      "positionEndDate": null,
+      "positionNotes": ""
+    },
+    {
+      "username": "用户M437297689",
+      "email": "user_M437297689@xianhou.com",
+      "phone": "",
+      "city": "未知",
+      "level": 1,
+      "status": "active",
+      "password": "#M!xlImaeStT",
+      "memberNumber": "M437297689",
+      "id": "1763189437298",
+      "joined_at": "2025-11-15T14:50:37.298056",
+      "position": "理事",
+      "positionStartDate": "2025-11-15",
+      "positionEndDate": null,
+      "positionNotes": ""
+    },
+    {
+      "username": "用户M437299931",
+      "email": "user_M437299931@xianhou.com",
+      "phone": "",
+      "city": "未知",
+      "level": 1,
+      "status": "active",
+      "password": "#M!xlImaeStT",
+      "memberNumber": "M437299931",
+      "id": "1763189437300",
+      "joined_at": "2025-11-15T14:50:37.300471",
+      "position": "理事",
+      "positionStartDate": "2025-11-15",
+      "positionEndDate": null,
+      "positionNotes": ""
+    },
+    {
+      "username": "用户M437301312",
+      "email": "user_M437301312@xianhou.com",
+      "phone": "",
+      "city": "未知",
+      "level": 1,
+      "status": "active",
+      "password": "#M!xlImaeStT",
+      "memberNumber": "M437301312",
+      "id": "1763189437302",
+      "joined_at": "2025-11-15T14:50:37.302966",
+      "position": "卫生部部长",
+      "positionStartDate": "2025-11-15",
+      "positionEndDate": null,
+      "positionNotes": ""
+    },
+    {
+      "username": "用户M437304617",
+      "email": "user_M437304617@xianhou.com",
+      "phone": "",
+      "city": "未知",
+      "level": 1,
+      "status": "active",
+      "password": "#M!xlImaeStT",
+      "memberNumber": "M437304617",
+      "id": "1763189437305",
+      "joined_at": "2025-11-15T14:50:37.305042",
+      "position": "打手",
+      "positionStartDate": "2025-11-15",
+      "positionEndDate": null,
+      "positionNotes": ""
+    },
+    {
+      "username": "用户M437306394",
+      "email": "user_M437306394@xianhou.com",
+      "phone": "",
+      "city": "未知",
+      "level": 1,
+      "status": "active",
+      "password": "#M!xlImaeStT",
+      "memberNumber": "M437306394",
+      "id": "1763189437307",
+      "joined_at": "2025-11-15T14:50:37.307196",
+      "position": "打手",
+      "positionStartDate": "2025-11-15",
+      "positionEndDate": null,
+      "positionNotes": ""
+    },
+    {
+      "username": "用户M437308985",
+      "email": "user_M437308985@xianhou.com",
+      "phone": "",
+      "city": "未知",
+      "level": 1,
+      "status": "active",
+      "password": "#M!xlImaeStT",
+      "memberNumber": "M437308985",
+      "id": "1763189437309",
+      "joined_at": "2025-11-15T14:50:37.309251",
+      "position": "车手",
+      "positionStartDate": "2025-11-15",
+      "positionEndDate": null,
+      "positionNotes": ""
+    },
+    {
+      "username": "用户M437311796",
+      "email": "user_M437311796@xianhou.com",
+      "phone": "",
+      "city": "未知",
+      "level": 1,
+      "status": "active",
+      "password": "#M!xlImaeStT",
+      "memberNumber": "M437311796",
+      "id": "1763189437313",
+      "joined_at": "2025-11-15T14:50:37.313533",
+      "position": "车手",
+      "positionStartDate": "2025-11-15",
+      "positionEndDate": null,
+      "positionNotes": ""
+    },
+    {
+      "username": "用户M437314389",
+      "email": "user_M437314389@xianhou.com",
+      "phone": "",
+      "city": "未知",
+      "level": 1,
+      "status": "active",
+      "password": "#M!xlImaeStT",
+      "memberNumber": "M437314389",
+      "id": "1763189437315",
+      "joined_at": "2025-11-15T14:50:37.315626"
+    },
+    {
+      "username": "用户M464864607",
+      "email": "user_M464864607@xianhou.com",
+      "phone": "",
+      "city": "未知",
+      "level": 1,
+      "status": "active",
+      "password": "T7!j6qRgDAfd",
+      "memberNumber": "M464864607",
+      "id": "1763189464867",
+      "joined_at": "2025-11-15T14:51:04.867845"
+    },
+    {
+      "username": "用户M464871364",
+      "email": "user_M464871364@xianhou.com",
+      "phone": "",
+      "city": "未知",
+      "level": 1,
+      "status": "active",
+      "password": "T7!j6qRgDAfd",
+      "memberNumber": "M464871364",
+      "id": "1763189464872",
+      "joined_at": "2025-11-15T14:51:04.872712"
+    },
+    {
+      "username": "用户M464873074",
+      "email": "user_M464873074@xianhou.com",
+      "phone": "",
+      "city": "未知",
+      "level": 1,
+      "status": "active",
+      "password": "T7!j6qRgDAfd",
+      "memberNumber": "M464873074",
+      "id": "1763189464875",
+      "joined_at": "2025-11-15T14:51:04.875197"
+    },
+    {
+      "username": "用户M464876046",
+      "email": "user_M464876046@xianhou.com",
+      "phone": "",
+      "city": "未知",
+      "level": 1,
+      "status": "active",
+      "password": "T7!j6qRgDAfd",
+      "memberNumber": "M464876046",
+      "id": "1763189464877",
+      "joined_at": "2025-11-15T14:51:04.877329"
+    },
+    {
+      "username": "用户M464878545",
+      "email": "user_M464878545@xianhou.com",
+      "phone": "",
+      "city": "未知",
+      "level": 1,
+      "status": "active",
+      "password": "T7!j6qRgDAfd",
+      "memberNumber": "M464878545",
+      "id": "1763189464879",
+      "joined_at": "2025-11-15T14:51:04.879146"
+    },
+    {
+      "id": "1763218155967",
+      "username": "u_+1763218155+",
+      "email": "u_+1763218155+@example.com",
+      "realName": "",
+      "phone": "",
+      "city": "",
+      "interests": "",
+      "joined_at": "2025-11-15T22:49:15.967137",
+      "status": "active",
+      "auto_registered": true
+    },
+    {
+      "id": "1763218156217",
+      "username": "聪明小虎9053",
+      "email": "auto_1763218156@jlp.temp",
+      "realName": "",
+      "phone": "",
+      "city": "",
+      "interests": "",
+      "joined_at": "2025-11-15T22:49:16.217886",
+      "status": "active",
+      "auto_registered": true
+    },
+    {
+      "id": "1763218156231",
+      "username": "友好小熊8139",
+      "email": "auto_1763218156@jlp.temp",
+      "realName": "",
+      "phone": "",
+      "city": "",
+      "interests": "",
+      "joined_at": "2025-11-15T22:49:16.231486",
+      "status": "active",
+      "auto_registered": true
+    },
+    {
+      "id": "1763218196290",
+      "username": "友好小虎1842",
+      "email": "auto_1763218196@jlp.temp",
+      "realName": "",
+      "phone": "",
+      "city": "",
+      "interests": "",
+      "joined_at": "2025-11-15T22:49:56.290561",
+      "status": "active",
+      "auto_registered": true
+    },
+    {
+      "id": "1763218208485",
+      "username": "机智小鹿9375",
+      "email": "auto_1763218208@jlp.temp",
+      "realName": "",
+      "phone": "",
+      "city": "",
+      "interests": "",
+      "joined_at": "2025-11-15T22:50:08.485342",
+      "status": "active",
+      "auto_registered": true
+    },
+    {
+      "id": "1763218690726",
+      "username": "阳光小鸟8531",
+      "email": "auto_1763218690@jlp.temp",
+      "realName": "",
+      "phone": "",
+      "city": "",
+      "interests": "",
+      "joined_at": "2025-11-15T22:58:10.726666",
+      "status": "active",
+      "auto_registered": true
+    }
+  ],
+  "userPresence": {},
+  "wallet_transactions": [
+    {
+      "amount": 100.5,
+      "created_at": "2025-11-14T03:57:06.627572",
+      "description": "钱包充值 ¥100.50",
+      "id": "1763063826627",
+      "status": "completed",
+      "type": "deposit",
+      "user_id": "test_user_123"
+    },
+    {
+      "amount": 100,
+      "created_at": "2025-11-14T04:03:05.411654",
+      "description": "钱包充值 ¥100.00",
+      "id": "1763064185411",
+      "status": "completed",
+      "type": "deposit",
+      "user_id": "1763063979025"
+    },
+    {
+      "amount": 50,
+      "created_at": "2025-11-14T04:03:12.833881",
+      "description": "钱包提款 ¥50.00",
+      "id": "1763064192833",
+      "status": "completed",
+      "type": "withdraw",
+      "user_id": "1763063979025"
+    },
+    {
+      "amount": 2520,
+      "created_at": "2025-11-14T04:06:43.765774",
+      "description": "钱包充值 ¥2520.00",
+      "id": "1763064403765",
+      "status": "completed",
+      "type": "deposit",
+      "user_id": "1763058089968"
+    },
+    {
+      "amount": 2000,
+      "created_at": "2025-11-14T04:06:54.063609",
+      "description": "钱包提款 ¥2000.00",
+      "id": "1763064414063",
+      "status": "completed",
+      "type": "withdraw",
+      "user_id": "1763058089968"
+    },
+    {
+      "amount": 9360,
+      "created_at": "2025-11-14T04:07:11.536688",
+      "description": "钱包充值 ¥9360.00",
+      "id": "1763064431536",
+      "status": "completed",
+      "type": "deposit",
+      "user_id": "1763058089968"
+    },
+    {
+      "amount": 9360,
+      "created_at": "2025-11-14T04:17:21.516790",
+      "description": "钱包充值 ¥9360.00",
+      "id": "1763065041516",
+      "status": "completed",
+      "type": "deposit",
+      "user_id": "1763058089968"
+    },
+    {
+      "amount": 1234,
+      "created_at": "2025-11-14T04:20:42.241265",
+      "description": "钱包充值 ¥1234.00",
+      "id": "1763065242241",
+      "status": "completed",
+      "type": "deposit",
+      "user_id": "1763058089968"
+    },
+    {
+      "amount": 1556,
+      "created_at": "2025-11-14T04:23:49.418905",
+      "description": "钱包提款 ¥1556.00",
+      "id": "1763065429418",
+      "status": "completed",
+      "type": "withdraw",
+      "user_id": "1763058089968"
+    },
+    {
+      "amount": 5556,
+      "created_at": "2025-11-14T04:36:04.003676",
+      "description": "钱包提款 ¥5556.00",
+      "id": "1763066164003",
+      "status": "completed",
+      "type": "withdraw",
+      "user_id": "1763058089968"
+    },
+    {
+      "amount": 2222,
+      "created_at": "2025-11-14T04:36:15.254757",
+      "description": "钱包提款 ¥2222.00",
+      "id": "1763066175254",
+      "status": "completed",
+      "type": "withdraw",
+      "user_id": "1763058089968"
+    },
+    {
+      "amount": 100,
+      "created_at": "2025-11-14T14:05:24.791549",
+      "description": "钱包提款 ¥100.00",
+      "id": "1763100324791",
+      "status": "completed",
+      "type": "withdraw",
+      "user_id": "1763058089968"
+    },
+    {
+      "amount": 5000,
+      "created_at": "2025-11-14T14:05:33.588316",
+      "description": "钱包提款 ¥5000.00",
+      "id": "1763100333588",
+      "status": "completed",
+      "type": "withdraw",
+      "user_id": "1763058089968"
+    },
+    {
+      "amount": 30,
+      "created_at": "2025-11-14T14:09:38.059404",
+      "description": "钱包提款 ¥30.00",
+      "id": "1763100578059",
+      "status": "completed",
+      "type": "withdraw",
+      "user_id": "1763058089968"
+    },
+    {
+      "amount": 80,
+      "created_at": "2025-11-14T14:09:40.173357",
+      "description": "钱包提款 ¥80.00",
+      "id": "1763100580173",
+      "status": "completed",
+      "type": "withdraw",
+      "user_id": "1763058089968"
+    },
+    {
+      "amount": 50,
+      "created_at": "2025-11-14T14:09:42.204196",
+      "description": "钱包提款 ¥50.00",
+      "id": "1763100582204",
+      "status": "completed",
+      "type": "withdraw",
+      "user_id": "1763058089968"
+    },
+    {
+      "amount": 5000,
+      "created_at": "2025-11-14T14:10:44.741160",
+      "description": "钱包提款 ¥5000.00",
+      "id": "1763100644741",
+      "status": "completed",
+      "type": "withdraw",
+      "user_id": "1763058089968"
+    },
+    {
+      "id": "1763100820189",
+      "user_id": "1763058089968",
+      "type": "deposit",
+      "amount": 10000.0,
+      "description": "钱包充值 ¥10000.00",
+      "status": "completed",
+      "created_at": "2025-11-14T14:13:40.189376"
+    },
+    {
+      "id": "1763144372414",
+      "user_id": "1763058089968",
+      "type": "withdraw",
+      "amount": 30.0,
+      "description": "钱包提款 ¥30.00",
+      "status": "completed",
+      "created_at": "2025-11-15T02:19:32.414773"
+    },
+    {
+      "id": "1763144373823",
+      "user_id": "1763058089968",
+      "type": "withdraw",
+      "amount": 80.0,
+      "description": "钱包提款 ¥80.00",
+      "status": "completed",
+      "created_at": "2025-11-15T02:19:33.823983"
+    },
+    {
+      "id": "1763144374872",
+      "user_id": "1763058089968",
+      "type": "withdraw",
+      "amount": 50.0,
+      "description": "钱包提款 ¥50.00",
+      "status": "completed",
+      "created_at": "2025-11-15T02:19:34.872599"
+    },
+    {
+      "id": "1763190756572",
+      "user_id": "1763062451525",
+      "type": "deposit",
+      "amount": 10000.0,
+      "description": "钱包充值 ¥10000.00",
+      "status": "completed",
+      "created_at": "2025-11-15T15:12:36.572193"
+    },
+    {
+      "id": "1763190760019",
+      "user_id": "1763062451525",
+      "type": "withdraw",
+      "amount": 30.0,
+      "description": "钱包提款 ¥30.00",
+      "status": "completed",
+      "created_at": "2025-11-15T15:12:40.019198"
+    },
+    {
+      "id": "1763190761835",
+      "user_id": "1763062451525",
+      "type": "withdraw",
+      "amount": 80.0,
+      "description": "钱包提款 ¥80.00",
+      "status": "completed",
+      "created_at": "2025-11-15T15:12:41.835684"
+    },
+    {
+      "id": "1763190763002",
+      "user_id": "1763062451525",
+      "type": "withdraw",
+      "amount": 50.0,
+      "description": "钱包提款 ¥50.00",
+      "status": "completed",
+      "created_at": "2025-11-15T15:12:43.002715"
+    },
+    {
+      "id": "1763190766043",
+      "user_id": "1763062451525",
+      "type": "withdraw",
+      "amount": 500.0,
+      "description": "钱包提款 ¥500.00",
+      "status": "completed",
+      "created_at": "2025-11-15T15:12:46.043600"
+    },
+    {
+      "id": "1763190768178",
+      "user_id": "1763062451525",
+      "type": "withdraw",
+      "amount": 500.0,
+      "description": "钱包提款 ¥500.00",
+      "status": "completed",
+      "created_at": "2025-11-15T15:12:48.178864"
+    },
+    {
+      "id": "1763190779813",
+      "user_id": "1763062451525",
+      "type": "withdraw",
+      "amount": 5000.0,
+      "description": "钱包提款 ¥5000.00",
+      "status": "completed",
+      "created_at": "2025-11-15T15:12:59.813249"
+    },
+    {
+      "id": "1763218155674",
+      "user_id": "test_user_123",
+      "type": "deposit",
+      "amount": 88.8,
+      "description": "钱包充值 ¥88.80",
+      "status": "completed",
+      "created_at": "2025-11-15T22:49:15.674375"
+    },
+    {
+      "id": "1763218445555",
+      "user_id": "1763062451525",
+      "type": "deposit",
+      "amount": 100.0,
+      "description": "钱包充值 ¥100.00",
+      "status": "completed",
+      "created_at": "2025-11-15T22:54:05.555020"
+    }
+  ],
+  "wallets": {
+    "1763058089968": {
+      "balance": 10720.0,
+      "created_at": "2025-11-14T04:01:33.469956",
+      "updated_at": "2025-11-15T02:19:34.872607"
+    },
+    "1763061397924": {
+      "balance": 0,
+      "created_at": "2025-11-14T04:13:42.502612",
+      "updated_at": "2025-11-14T04:13:42.502617"
+    },
+    "1763062451525": {
+      "balance": 3940.0,
+      "created_at": "2025-11-14T04:13:42.515959",
+      "updated_at": "2025-11-15T22:54:05.555041"
+    },
+    "1763062724892": {
+      "balance": 0,
+      "created_at": "2025-11-14T04:13:42.519595",
+      "updated_at": "2025-11-14T04:13:42.519599"
+    },
+    "1763062725043": {
+      "balance": 0,
+      "created_at": "2025-11-14T04:13:42.522098",
+      "updated_at": "2025-11-14T04:13:42.522102"
+    },
+    "1763063052959": {
+      "balance": 0,
+      "created_at": "2025-11-14T04:13:42.524392",
+      "updated_at": "2025-11-14T04:13:42.524398"
+    },
+    "1763063979025": {
+      "balance": 50,
+      "created_at": "2025-11-14T04:03:00.706959",
+      "updated_at": "2025-11-14T04:03:12.833890"
+    },
+    "test_user_123": {
+      "balance": 189.3,
+      "created_at": "2025-11-14T03:57:00.488622",
+      "updated_at": "2025-11-15T22:49:15.674381"
+    },
+    "undefined": {
+      "balance": 0,
+      "created_at": "2025-11-14T03:59:59.087841",
+      "updated_at": "2025-11-14T03:59:59.087850"
+    },
+    "wangwu789": {
+      "balance": 0,
+      "created_at": "2025-11-14T04:14:24.272093",
+      "updated_at": "2025-11-14T04:14:24.272101"
+    },
+    "1763189437291": {
+      "balance": 0.0,
+      "created_at": "2025-11-15T14:50:47.092975",
+      "updated_at": "2025-11-15T14:50:47.092979"
+    },
+    "1763189437295": {
+      "balance": 0.0,
+      "created_at": "2025-11-15T14:50:47.093894",
+      "updated_at": "2025-11-15T14:50:47.093897"
+    },
+    "1763189437298": {
+      "balance": 0.0,
+      "created_at": "2025-11-15T14:50:47.095102",
+      "updated_at": "2025-11-15T14:50:47.095105"
+    },
+    "1763189437300": {
+      "balance": 0.0,
+      "created_at": "2025-11-15T14:50:47.096354",
+      "updated_at": "2025-11-15T14:50:47.096356"
+    },
+    "1763189437307": {
+      "balance": 0.0,
+      "created_at": "2025-11-15T14:50:47.097874",
+      "updated_at": "2025-11-15T14:50:47.097875"
+    },
+    "1763189437302": {
+      "balance": 0.0,
+      "created_at": "2025-11-15T14:50:47.099811",
+      "updated_at": "2025-11-15T14:50:47.099823"
+    },
+    "1763189437305": {
+      "balance": 0.0,
+      "created_at": "2025-11-15T14:50:47.101124",
+      "updated_at": "2025-11-15T14:50:47.101127"
+    },
+    "1763189437309": {
+      "balance": 0.0,
+      "created_at": "2025-11-15T14:50:47.102178",
+      "updated_at": "2025-11-15T14:50:47.102180"
+    },
+    "1763189437313": {
+      "balance": 0.0,
+      "created_at": "2025-11-15T14:50:47.103035",
+      "updated_at": "2025-11-15T14:50:47.103037"
+    },
+    "1763189437315": {
+      "balance": 0.0,
+      "created_at": "2025-11-15T14:51:15.339674",
+      "updated_at": "2025-11-15T14:51:15.339678"
+    },
+    "1763189464875": {
+      "balance": 0.0,
+      "created_at": "2025-11-15T14:51:15.344161",
+      "updated_at": "2025-11-15T14:51:15.344163"
+    },
+    "1763189464879": {
+      "balance": 0.0,
+      "created_at": "2025-11-15T14:51:15.346891",
+      "updated_at": "2025-11-15T14:51:15.346894"
+    },
+    "1763189464867": {
+      "balance": 0.0,
+      "created_at": "2025-11-15T14:53:12.336109",
+      "updated_at": "2025-11-15T14:53:12.336112"
+    },
+    "1763189464872": {
+      "balance": 0.0,
+      "created_at": "2025-11-15T14:54:28.739449",
+      "updated_at": "2025-11-15T14:54:28.739454"
+    },
+    "1763189464877": {
+      "balance": 0.0,
+      "created_at": "2025-11-15T14:54:28.741788",
+      "updated_at": "2025-11-15T14:54:28.741814"
+    }
+  },
+  "adminSessions": {
+    "D7MYoPRBLXq5bXnNVCRQejpr8mYNQ1CL": {
+      "username": "admin",
+      "loginTime": "2025-11-14T14:40:58.764604",
+      "lastActive": "2025-11-14T15:13:14.306128",
+      "expiresAt": 1763109658764.612
+    },
+    "KFM3xI4EckZ8bwkKWpI9aW7VG07G1aq3": {
+      "username": "admin",
+      "loginTime": "2025-11-15T14:49:43.709898",
+      "lastActive": "2025-11-15T16:08:22.085398",
+      "expiresAt": 1763196583710.2239
+    },
+    "XmgcpAfW5naW8kH62FxTLYyZKbaB8uTE": {
+      "username": "admin",
+      "loginTime": "2025-11-15T15:33:56.718890",
+      "lastActive": "2025-11-15T15:33:56.718897",
+      "expiresAt": 1763199236718.898
+    },
+    "GfX5TlyBkl6UcVYQzGJf7BbgkvWd5fFq": {
+      "username": "admin",
+      "loginTime": "2025-11-15T22:49:15.444300",
+      "lastActive": "2025-11-15T22:49:15.444327",
+      "expiresAt": 1763225355444.3281
+    },
+    "mWQGliY5sUOQy8bCx60eLGyApWvdKZEi": {
+      "username": "admin",
+      "loginTime": "2025-11-15T22:51:47.763006",
+      "lastActive": "2025-11-15T22:51:47.763012",
+      "expiresAt": 1763225507763.013
+    },
+    "iEZLnnhSC48VX5cgiJTfH5rzrl0Fknba": {
+      "username": "admin",
+      "loginTime": "2025-11-15T22:52:49.352636",
+      "lastActive": "2025-11-15T22:53:23.015321",
+      "expiresAt": 1763225569352.643
+    }
+  }
+}
