@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试登录流程</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+    </style>
+</head>
+<body>
+    <h1>登录流程测试</h1>
+    
+    <div class="test-section">
+        <h3>本地存储状态</h3>
+        <div id="localStorageStatus"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>测试登录</h3>
+        <button onclick="testLogin()">测试会员ID登录</button>
+        <div id="testResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>跳转到会员中心</h3>
+        <button onclick="goToMemberCenter()">手动跳转到会员中心</button>
+    </div>
+
+    <script>
+        // 检查本地存储
+        function checkLocalStorage() {
+            const currentUser = localStorage.getItem('currentUser');
+            const statusDiv = document.getElementById('localStorageStatus');
+            
+            if (currentUser) {
+                try {
+                    const user = JSON.parse(currentUser);
+                    statusDiv.innerHTML = `<span class="success">✓ 已登录用户: ${user.username || user.id}</span><br>
+                        会员ID: ${user.id || '无'}<br>
+                        邮箱: ${user.email || '无'}`;
+                } catch (e) {
+                    statusDiv.innerHTML = '<span class="error">✗ 本地存储数据损坏</span>';
+                }
+            } else {
+                statusDiv.innerHTML = '<span class="info">ℹ 当前未登录</span>';
+            }
+        }
+        
+        // 测试登录
+        async function testLogin() {
+            const resultDiv = document.getElementById('testResult');
+            resultDiv.innerHTML = '<span class="info">正在测试登录...</span>';
+            
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        memberId: '1763062451525',
+                        password: 'mkiWHPZQkT2L'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // 保存到本地存储
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    resultDiv.innerHTML = '<span class="success">✓ 登录成功！2秒后将自动跳转</span>';
+                    
+                    // 2秒后跳转
+                    setTimeout(() => {
+                        window.location.href = 'member.html';
+                    }, 2000);
+                } else {
+                    resultDiv.innerHTML = `<span class="error">✗ 登录失败: ${data.message}</span>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">✗ 错误: ${error.message}</span>`;
+            }
+            
+            // 更新本地存储状态
+            checkLocalStorage();
+        }
+        
+        // 手动跳转
+        function goToMemberCenter() {
+            window.location.href = 'member.html';
+        }
+        
+        // 页面加载时检查状态
+        checkLocalStorage();
+    </script>
+</body>
+</html>

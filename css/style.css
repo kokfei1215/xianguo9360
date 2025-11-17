@@ -26,7 +26,8 @@ body {
 
 /* 更专业、低调的全站背景 */
 body {
-    background: linear-gradient(180deg, #f4f7fb 0%, #ffffff 60%);
+    background: url('../img/jlp-logo.svg') no-repeat center center fixed, linear-gradient(180deg, #f4f7fb 0%, #ffffff 60%);
+    background-size: 520px, auto;
 }
 
 .container {
@@ -114,10 +115,40 @@ header .container {
     padding: 15px;
 }
 
-.logo h1 {
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo .site-logo {
+    height: 64px; /* 原为44px，增大以提升识别度 */
+    width: auto;
+    display: block;
+}
+
+.logo .site-title,
+.nav-logo .site-title {
     font-size: 1.8em;
     color: var(--brand-primary);
     font-weight: 700;
+}
+
+.footer-logo-img {
+    height: 56px;
+    width: auto;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-logo .site-logo {
+    height: 36px;
 }
 
 nav ul {
@@ -421,6 +452,7 @@ input:focus, textarea:focus, select:focus {
 }
 .form-actions { display: flex; gap: 12px; margin-top: 8px; }
 .form-helper { color: var(--text-secondary); font-size: 0.9em; margin-top: 6px; }
+.error-message { color: #dc2626; font-size: 0.9em; margin-top: 6px; display: block; }
 .alert { border-radius: 8px; padding: 10px 12px; border: 1px solid var(--border-soft); }
 .alert-success { background: #ecfdf5; color: #065f46; border-color: rgba(6, 95, 70, 0.2); }
 .alert-warning { background: #fffbeb; color: #92400e; border-color: rgba(146, 64, 14, 0.2); }
@@ -546,6 +578,41 @@ footer {
 .footer-bottom p {
     font-size: 0.9em;
     color: #bdc3c7;
+}
+
+.events-list .events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.events-list .event-item {
+    background: #fff;
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+}
+
+.events-list .event-image {
+    position: relative;
+}
+
+.events-list .event-image img {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    display: block;
+}
+
+.events-list .event-date {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(37, 99, 235, 0.9);
+    color: #fff;
+    border-radius: 8px;
+    padding: 6px 8px;
 }
 
 /* 响应式设计 */

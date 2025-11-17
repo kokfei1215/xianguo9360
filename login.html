@@ -58,10 +58,10 @@
                             <h2>登录您的账户</h2>
                             
                             <div class="form-group">
-                                <label for="loginEmail">邮箱地址</label>
-                                <input type="email" id="loginEmail" name="email" required 
-                                       placeholder="请输入邮箱地址">
-                                <span class="error-message" id="loginEmailError"></span>
+                                <label for="loginMemberId">会员ID</label>
+                                <input type="text" id="loginMemberId" name="memberId" required 
+                                       placeholder="请输入会员ID（如：M123456789）">
+                                <span class="error-message" id="loginMemberIdError"></span>
                             </div>
 
                             <div class="form-group">
@@ -86,6 +86,7 @@
                             <div class="form-footer">
                                 <p><a href="#" class="link" onclick="showForgotPassword()">忘记密码？</a></p>
                                 <p>还没有账号？<a href="register.html" class="link">立即注册</a></p>
+                                <p>快速注册？<a href="auto-register.html" class="link">一键自动注册</a></p>
                             </div>
                         </form>
 
@@ -101,13 +102,13 @@
                         <!-- 忘记密码表单 -->
                         <div class="forgot-password-form" id="forgotPasswordForm" style="display: none;">
                             <h2>重置密码</h2>
-                            <p>请输入您的邮箱地址，我们将发送重置密码的链接给您。</p>
+                            <p>请输入您的会员ID，我们将发送重置密码的链接给您。</p>
                             
                             <div class="form-group">
-                                <label for="resetEmail">邮箱地址</label>
-                                <input type="email" id="resetEmail" name="resetEmail" required 
-                                       placeholder="请输入注册时使用的邮箱地址">
-                                <span class="error-message" id="resetEmailError"></span>
+                                <label for="resetMemberId">会员ID</label>
+                                <input type="text" id="resetMemberId" name="resetMemberId" required 
+                                       placeholder="请输入注册时使用的会员ID">
+                                <span class="error-message" id="resetMemberIdError"></span>
                             </div>
 
                             <button type="button" class="btn btn-primary btn-full" onclick="sendResetEmail()">
@@ -122,14 +123,14 @@
 
                     <div class="login-info">
                         <div class="info-card">
-                            <h3>🔐 账户安全</h3>
-                            <ul>
-                                <li>所有账户需要管理员审核通过</li>
-                                <li>请使用注册时的邮箱登录</li>
-                                <li>如忘记密码可申请重置</li>
-                                <li>多次登录失败将暂时锁定账户</li>
-                            </ul>
-                        </div>
+                                <h3>🔐 账户安全</h3>
+                                <ul>
+                                    <li>所有账户需要管理员审核通过</li>
+                                    <li>请使用您的会员ID登录</li>
+                                    <li>如忘记密码可申请重置</li>
+                                    <li>多次登录失败将暂时锁定账户</li>
+                                </ul>
+                            </div>
 
                         <div class="info-card">
                             <h3>❓ 常见问题</h3>
@@ -138,8 +139,8 @@
                                 <p>A: 请等待管理员审核通过，通常需要1-3个工作日。</p>
                             </div>
                             <div class="faq-item">
-                                <strong>Q: 忘记了用户名？</strong>
-                                <p>A: 请使用注册时的邮箱地址登录。</p>
+                                <strong>Q: 忘记了会员ID？</strong>
+                                <p>A: 请联系管理员查询您的会员ID，或查看注册时的确认信息。</p>
                             </div>
                             <div class="faq-item">
                                 <strong>Q: 需要帮助？</strong>
@@ -175,13 +176,16 @@
                         <li><a href="about.html">关于我们</a></li>
                         <li><a href="events.html">活动展示</a></li>
                         <li><a href="contact.html">联系我们</a></li>
-                        <li><a href="register.html">会员注册</a></li>
-                    </ul>
+                    <li><a href="donation.html">捐款</a></li>
+                    <li><a href="application.html">入会申请</a></li>
+                    <li><a href="login.html" class="active">登录</a></li>
+                    <li><a href="register.html">注册</a></li>
+                </ul>
                 </div>
                 <div class="footer-section">
                     <h4>联系方式</h4>
                     <p>邮箱: <a href="mailto:info@xiangou9360.com">info@xiangou9360.com</a></p>
-                    <p>电话: 400-123-4567</p>
+                    <p>电话: 017-512-0686</p>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -190,6 +194,7 @@
         </div>
     </footer>
 
-    <script src="js/script.js"></script>
+    <script src="js/api-client.js"></script>
+    <script src="js/script.js?v=4"></script>
 </body>
 </html>

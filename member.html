@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会员中心 - 闲狗联合会（JLP）</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 1px solid #00ff88;
+            border-radius: 15px;
+            margin: 10% auto;
+            padding: 0;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            background: rgba(0, 255, 136, 0.1);
+            padding: 20px;
+            border-bottom: 1px solid #00ff88;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: #00ff88;
+            font-size: 1.5rem;
+        }
+
+        .close {
+            color: #00ff88;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #fff;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #00ff88;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 14px;
+            margin: 0 5px;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #00ff88;
+            color: #000;
+        }
+
+        .btn-secondary {
+            background: #666;
+            color: #fff;
+        }
+
+        .btn-primary:hover, .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 快速捐款区域样式 */
+        .quick-donation {
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid #00ff88;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .wallet-payment-info {
+            background: rgba(0, 255, 136, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .wallet-payment-info p {
+            margin: 0;
+            font-size: 16px;
+            color: #00ff88;
+        }
+
+        .donation-amounts {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .amount-btn {
+            padding: 10px 20px;
+            border: 1px solid #00ff88;
+            border-radius: 8px;
+            background: #666;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .amount-btn:hover {
+            background: #888;
+            transform: translateY(-1px);
+        }
+
+        .amount-btn.selected {
+            background: #00ff88;
+            color: #000;
+        }
+
+        /* 活动卡片样式 */
+        .upcoming-events {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .event-card {
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid #00ff88;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.2);
+        }
+
+        .event-card h4 {
+            color: #00ff88;
+            margin: 0 0 10px 0;
+            font-size: 18px;
+        }
+
+        .event-card p {
+            margin: 8px 0;
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .event-card .btn {
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        /* 表单样式增强 */
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #00ff88;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 80px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="img/jlp-logo.svg">
+    <link rel="icon" type="image/png" href="img/jlp-logo.png">
+</head>
+<body id="memberPage">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img class="site-logo" src="img/jlp-logo.svg" onerror="this.src='img/jlp-logo.png'" alt="闲狗联合会（JLP）Logo">
+                <h1 class="site-title">闲狗联合会（JLP）</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="events.html">活动展示</a></li>
+                    <li><a href="donation.html">捐款</a></li>
+                    <li><a href="application.html">入会申请</a></li>
+                    <li><a href="games.html">会员小游戏</a></li>
+                    <li><a href="login.html">登录</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>会员中心</h1>
+            <p>查看个人资料、捐款与报名记录，以及会员等级</p>
+        </div>
+    </section>
+
+    <section class="member-dashboard">
+        <div class="container">
+            <div class="member-card">
+                <div class="member-avatar">
+                    <img id="memberAvatarImg" src="img/avatar-60.svg" alt="会员头像" style="width:120px;height:120px;border-radius:50%;object-fit:cover;">
+                    <div class="avatar-actions" style="margin-top:10px;">
+                        <input type="file" id="avatarInput" accept="image/*">
+                        <button class="btn" id="saveAvatarBtn">保存头像</button>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h2 id="memberName">会员姓名</h2>
+                    <p>会员ID：<strong id="memberId">-</strong></p>
+                    <p id="memberEmail">邮箱</p>
+                    <p>会员等级：<strong id="memberLevel">1级</strong></p>
+                    <p>累计捐款：<strong id="donationTotal">0.00</strong> 元</p>
+                    <div class="wallet-info" style="margin: 15px 0; padding: 15px; background: rgba(0, 255, 136, 0.1); border-radius: 8px; border: 1px solid #00ff88;">
+                        <h4 style="color: #00ff88; margin: 0 0 10px 0;">💰 我的钱包</h4>
+                        <p style="margin: 5px 0;">余额：<strong id="walletBalance" style="color: #00ff88; font-size: 18px;">0.00</strong> 元</p>
+                        <div style="margin-top: 10px;">
+                            <button class="btn btn-small" onclick="showWalletDeposit()" style="background: #00ff88; color: #000; margin-right: 10px;">💵 充值</button>
+                            <button class="btn btn-small" onclick="showWalletWithdraw()" style="background: #ff6b6b; color: #fff; margin-right: 10px;">💸 提款</button>
+                            <button class="btn btn-small" onclick="showWalletTransactions()" style="background: #666; color: #fff;">📋 交易记录</button>
+                        </div>
+                    </div>
+                    <div class="member-actions" style="margin-top: 15px;">
+                        <button class="btn btn-small" onclick="showEditProfile()" style="background: #00ff88; color: #000;">✏️ 编辑资料</button>
+                        <button class="btn btn-small" onclick="showChangePassword()" style="background: #ff6b6b; color: #fff;">🔒 修改密码</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="member-section">
+                <h3>已报名活动</h3>
+                <table class="donations-table">
+                    <thead>
+                        <tr>
+                            <th>活动名称</th>
+                            <th>地点</th>
+                            <th>时间</th>
+                            <th>报名日期</th>
+                        </tr>
+                    </thead>
+                    <tbody id="signupList">
+                        <!-- 报名记录由脚本填充 -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="member-actions" style="margin-top:20px;">
+                <a class="btn" href="events.html">去报名更多活动</a>
+                <a class="btn" href="games.html">进入会员小游戏</a>
+                <a class="btn" href="chat.html">进入会员大家族聊天</a>
+            </div>
+
+            <!-- 快速捐款区域 -->
+            <div class="member-section">
+                <h3>💝 快速捐款</h3>
+                <div class="quick-donation">
+                    <div class="wallet-payment-info">
+                        <p>💰 当前钱包余额: <strong id="walletBalanceForDonation">¥0.00</strong></p>
+                    </div>
+                    <div class="donation-amounts">
+                        <button class="amount-btn" onclick="selectDonationAmount(10, this)">¥10</button>
+                        <button class="amount-btn" onclick="selectDonationAmount(50, this)">¥50</button>
+                        <button class="amount-btn" onclick="selectDonationAmount(100, this)">¥100</button>
+                        <button class="amount-btn" onclick="selectDonationAmount(200, this)">¥200</button>
+                        <button class="amount-btn" onclick="selectDonationAmount(500, this)">¥500</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="customDonationAmount">自定义金额</label>
+                        <input type="number" id="customDonationAmount" min="1" max="10000" placeholder="输入自定义金额">
+                    </div>
+                    <div class="form-group">
+                        <label for="donationMessage">捐款留言（可选）</label>
+                        <textarea id="donationMessage" rows="3" placeholder="留下您的祝福或建议"></textarea>
+                    </div>
+                    <button class="btn btn-primary" onclick="donateWithWallet()">💝 使用钱包余额捐款</button>
+                </div>
+            </div>
+
+            <!-- 活动报名区域 -->
+            <div class="member-section">
+                <h3>🎯 即将举行的活动</h3>
+                <div class="upcoming-events">
+                    <div class="event-card">
+                        <h4>🏸 羽毛球友谊赛</h4>
+                        <p>📅 时间: 2024年12月15日 14:00-17:00</p>
+                        <p>📍 地点: 九洞篮球场中心</p>
+                        <p>💰 费用: 会员¥30 / 非会员¥50</p>
+                        <button class="btn btn-primary" onclick="registerEventWithWallet('badminton', 30, '羽毛球友谊赛')">🎯 使用钱包报名</button>
+                    </div>
+                    <div class="event-card">
+                        <h4>🍲 美食分享会</h4>
+                        <p>📅 时间: 2024年12月20日 18:00-21:00</p>
+                        <p>📍 地点: 湖畔花园餐厅</p>
+                        <p>💰 费用: 会员¥80 / 非会员¥120</p>
+                        <button class="btn btn-primary" onclick="registerEventWithWallet('food', 80, '美食分享会')">🎯 使用钱包报名</button>
+                    </div>
+                    <div class="event-card">
+                        <h4>🎤 创业经验分享会</h4>
+                        <p>📅 时间: 2024年12月25日 14:30-17:30</p>
+                        <p>📍 地点: 创新创业中心</p>
+                        <p>💰 费用: 会员¥50 / 非会员¥100</p>
+                        <button class="btn btn-primary" onclick="registerEventWithWallet('startup', 50, '创业经验分享会')">🎯 使用钱包报名</button>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <a class="btn btn-secondary" href="events.html">查看更多活动</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 闲狗联合会. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 编辑资料模态框 -->
+    <div id="editProfileModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>编辑个人资料</h3>
+                <span class="close" onclick="closeEditProfile()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editProfileForm">
+                    <div class="form-group">
+                        <label for="editUsername">用户名</label>
+                        <input type="text" id="editUsername" name="username" required>
+                        <small style="color: #888;">用户名长度3-20个字符</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail">邮箱地址</label>
+                        <input type="email" id="editEmail" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="editPhone">手机号码</label>
+                        <input type="tel" id="editPhone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="editCity">所在城市</label>
+                        <input type="text" id="editCity" name="city">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeEditProfile()">取消</button>
+                        <button type="submit" class="btn btn-primary">保存修改</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 修改密码模态框 -->
+    <div id="changePasswordModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>修改密码</h3>
+                <span class="close" onclick="closeChangePassword()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="changePasswordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">当前密码</label>
+                        <input type="password" id="currentPassword" name="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">新密码</label>
+                        <input type="password" id="newPassword" name="newPassword" required minlength="6">
+                        <small style="color: #888;">密码长度至少6位</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">确认新密码</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeChangePassword()">取消</button>
+                        <button type="submit" class="btn btn-primary">修改密码</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 钱包充值模态框 -->
+    <div id="walletDepositModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💵 钱包充值</h3>
+                <span class="close" onclick="closeWalletDeposit()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="walletDepositForm">
+                    <div class="form-group">
+                        <label for="depositAmount">充值金额（元）</label>
+                        <input type="number" id="depositAmount" name="amount" min="1" max="10000" step="0.01" required>
+                        <small style="color: #888;">最低充值1元，最高10000元</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="depositMethod">支付方式</label>
+                        <select id="depositMethod" name="method" style="width: 100%; padding: 12px 15px; border: 1px solid #00ff88; border-radius: 8px; background: rgba(0, 0, 0, 0.3); color: #fff;">
+                            <option value="wechat">微信支付</option>
+                            <option value="alipay">支付宝</option>
+                            <option value="bank">银行卡</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeWalletDeposit()">取消</button>
+                        <button type="submit" class="btn btn-primary">确认充值</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 钱包提款模态框 -->
+    <div id="walletWithdrawModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💸 钱包提款</h3>
+                <span class="close" onclick="closeWalletWithdraw()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="walletWithdrawForm">
+                    <div class="form-group">
+                        <label for="withdrawAmount">提款金额（元）</label>
+                        <input type="number" id="withdrawAmount" name="amount" min="1" max="10000" step="0.01" required>
+                        <small style="color: #888;">当前余额：<span id="currentBalance" style="color: #00ff88;">0.00</span> 元</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="withdrawMethod">提款方式</label>
+                        <select id="withdrawMethod" name="method" style="width: 100%; padding: 12px 15px; border: 1px solid #00ff88; border-radius: 8px; background: rgba(0, 0, 0, 0.3); color: #fff;">
+                            <option value="wechat">微信</option>
+                            <option value="alipay">支付宝</option>
+                            <option value="bank">银行卡</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="withdrawAccount">提款账户</label>
+                        <input type="text" id="withdrawAccount" name="account" placeholder="请输入收款账户信息" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeWalletWithdraw()">取消</button>
+                        <button type="submit" class="btn btn-primary">确认提款</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 钱包交易记录模态框 -->
+    <div id="walletTransactionsModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3>📋 钱包交易记录</h3>
+                <span class="close" onclick="closeWalletTransactions()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="transactionsList" style="max-height: 400px; overflow-y: auto;">
+                    <!-- 交易记录将在这里动态加载 -->
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeWalletTransactions()">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api-client.js"></script>
+    <script src="js/script.js?v=4"></script>
+    <script>
+        // 获取当前用户信息
+        let currentUser = null;
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCurrentUser();
+            setupEditForms();
+        });
+
+        // 加载当前用户信息
+        function loadCurrentUser() {
+            const userData = localStorage.getItem('currentUser');
+            if (userData) {
+                currentUser = JSON.parse(userData);
+                displayUserInfo();
+                loadWalletInfo();
+                loadDonationTotal();
+                loadEventRegistrations();
+            } else {
+                // 如果没有登录，跳转到登录页面
+                window.location.href = 'login.html';
+            }
+        }
+
+        // 加载钱包信息
+        async function loadWalletInfo() {
+            if (!currentUser) return;
+            
+            try {
+                const response = await apiClient.getWallet(currentUser.id);
+                if (response.success) {
+                    const balance = response.wallet.balance.toFixed(2);
+                    document.getElementById('walletBalance').textContent = balance;
+                    document.getElementById('walletBalanceForDonation').textContent = `¥${balance}`;
+                }
+            } catch (error) {
+                console.error('加载钱包信息失败:', error);
+                document.getElementById('walletBalance').textContent = '0.00';
+                document.getElementById('walletBalanceForDonation').textContent = '¥0.00';
+            }
+        }
+
+        // 显示用户信息
+        function displayUserInfo() {
+            if (currentUser) {
+                document.getElementById('memberName').textContent = currentUser.username;
+                document.getElementById('memberEmail').textContent = currentUser.email || '未设置邮箱';
+                document.getElementById('memberLevel').textContent = currentUser.level || '1级';
+                
+                // 填充编辑表单的默认值
+                document.getElementById('editUsername').value = currentUser.username;
+                document.getElementById('editEmail').value = currentUser.email || '';
+                document.getElementById('editPhone').value = currentUser.phone || '';
+                document.getElementById('editCity').value = currentUser.city || '';
+            }
+        }
+
+        // 显示编辑资料模态框
+        function showEditProfile() {
+            document.getElementById('editProfileModal').style.display = 'block';
+        }
+
+        // 关闭编辑资料模态框
+        function closeEditProfile() {
+            document.getElementById('editProfileModal').style.display = 'none';
+        }
+
+        // 显示修改密码模态框
+        function showChangePassword() {
+            document.getElementById('changePasswordModal').style.display = 'block';
+            // 清空密码字段
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }
+
+        // 关闭修改密码模态框
+        function closeChangePassword() {
+            document.getElementById('changePasswordModal').style.display = 'none';
+        }
+
+        // 显示钱包充值模态框
+        function showWalletDeposit() {
+            document.getElementById('walletDepositModal').style.display = 'block';
+            document.getElementById('depositAmount').value = '';
+        }
+
+        // 关闭钱包充值模态框
+        function closeWalletDeposit() {
+            document.getElementById('walletDepositModal').style.display = 'none';
+        }
+
+        // 显示钱包提款模态框
+        function showWalletWithdraw() {
+            document.getElementById('walletWithdrawModal').style.display = 'block';
+            document.getElementById('withdrawAmount').value = '';
+            document.getElementById('withdrawAccount').value = '';
+            // 更新当前余额显示
+            const currentBalance = parseFloat(document.getElementById('walletBalance').textContent);
+            document.getElementById('currentBalance').textContent = currentBalance.toFixed(2);
+        }
+
+        // 关闭钱包提款模态框
+        function closeWalletWithdraw() {
+            document.getElementById('walletWithdrawModal').style.display = 'none';
+        }
+
+        // 显示钱包交易记录模态框
+        async function showWalletTransactions() {
+            document.getElementById('walletTransactionsModal').style.display = 'block';
+            await loadWalletTransactions();
+        }
+
+        // 关闭钱包交易记录模态框
+        function closeWalletTransactions() {
+            document.getElementById('walletTransactionsModal').style.display = 'none';
+        }
+
+        // 处理钱包充值
+        async function processWalletDeposit() {
+            if (!currentUser) return;
+
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+            const method = document.getElementById('depositMethod').value;
+
+            if (!amount || amount <= 0 || amount > 10000) {
+                showNotification('❌ 请输入有效的充值金额（1-10000元）', 'error');
+                return;
+            }
+
+            try {
+                const response = await apiClient.depositToWallet(currentUser.id, amount);
+                if (response.success) {
+                    showNotification(`✅ 充值成功！¥${amount.toFixed(2)}已到账`, 'success');
+                    await loadWalletInfo(); // 刷新钱包余额
+                    closeWalletDeposit();
+                } else {
+                    showNotification(`❌ 充值失败: ${response.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('钱包充值失败:', error);
+                showNotification('❌ 充值失败，请重试', 'error');
+            }
+        }
+
+        // 处理钱包提款
+        async function processWalletWithdraw() {
+            if (!currentUser) return;
+
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            const method = document.getElementById('withdrawMethod').value;
+            const account = document.getElementById('withdrawAccount').value.trim();
+
+            if (!amount || amount <= 0) {
+                showNotification('❌ 请输入有效的提款金额', 'error');
+                return;
+            }
+
+            if (!account) {
+                showNotification('❌ 请输入收款账户信息', 'error');
+                return;
+            }
+
+            const currentBalance = parseFloat(document.getElementById('walletBalance').textContent);
+            if (amount > currentBalance) {
+                showNotification('❌ 余额不足', 'error');
+                return;
+            }
+
+            try {
+                const response = await apiClient.withdrawFromWallet(currentUser.id, amount);
+                if (response.success) {
+                    showNotification(`✅ 提款成功！¥${amount.toFixed(2)}已提交`, 'success');
+                    await loadWalletInfo(); // 刷新钱包余额
+                    closeWalletWithdraw();
+                } else {
+                    showNotification(`❌ 提款失败: ${response.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('钱包提款失败:', error);
+                showNotification('❌ 提款失败，请重试', 'error');
+            }
+        }
+
+        // 加载钱包交易记录
+        async function loadWalletTransactions() {
+            if (!currentUser) return;
+
+            try {
+                const response = await apiClient.getWalletTransactions(currentUser.id, 20);
+                const transactionsList = document.getElementById('transactionsList');
+                
+                if (response.success && response.transactions.length > 0) {
+                    let html = '<table style="width: 100%; border-collapse: collapse;">';
+                    html += '<thead><tr style="background: rgba(0, 255, 136, 0.1);">';
+                    html += '<th style="padding: 10px; border: 1px solid #00ff88;">时间</th>';
+                    html += '<th style="padding: 10px; border: 1px solid #00ff88;">类型</th>';
+                    html += '<th style="padding: 10px; border: 1px solid #00ff88;">金额</th>';
+                    html += '<th style="padding: 10px; border: 1px solid #00ff88;">描述</th>';
+                    html += '</tr></thead><tbody>';
+
+                    response.transactions.forEach(transaction => {
+                        const date = new Date(transaction.created_at).toLocaleString('zh-CN');
+                        const typeText = transaction.type === 'deposit' ? '💵 充值' : 
+                                       transaction.type === 'withdraw' ? '💸 提款' : '🔄 其他';
+                        const amountColor = transaction.type === 'deposit' ? '#00ff88' : '#ff6b6b';
+                        const sign = transaction.type === 'deposit' ? '+' : '-';
+                        
+                        html += '<tr>';
+                        html += `<td style="padding: 8px; border: 1px solid #333;">${date}</td>`;
+                        html += `<td style="padding: 8px; border: 1px solid #333;">${typeText}</td>`;
+                        html += `<td style="padding: 8px; border: 1px solid #333; color: ${amountColor};">${sign}¥${Math.abs(transaction.amount).toFixed(2)}</td>`;
+                        html += `<td style="padding: 8px; border: 1px solid #333;">${transaction.description || '-'}</td>`;
+                        html += '</tr>';
+                    });
+
+                    html += '</tbody></table>';
+                    transactionsList.innerHTML = html;
+                } else {
+                    transactionsList.innerHTML = '<p style="text-align: center; color: #888;">暂无交易记录</p>';
+                }
+            } catch (error) {
+                console.error('加载交易记录失败:', error);
+                document.getElementById('transactionsList').innerHTML = '<p style="text-align: center; color: #ff6b6b;">加载交易记录失败</p>';
+            }
+        }
+
+        // 设置表单提交处理
+        function setupEditForms() {
+            // 编辑资料表单
+            document.getElementById('editProfileForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                await updateProfile();
+            });
+
+            // 修改密码表单
+            document.getElementById('changePasswordForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                await changePassword();
+            });
+
+            // 钱包充值表单
+            document.getElementById('walletDepositForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                await processWalletDeposit();
+            });
+
+            // 钱包提款表单
+            document.getElementById('walletWithdrawForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                await processWalletWithdraw();
+            });
+
+            // 点击模态框外部关闭
+            window.addEventListener('click', function(event) {
+                const editModal = document.getElementById('editProfileModal');
+                const passwordModal = document.getElementById('changePasswordModal');
+                const depositModal = document.getElementById('walletDepositModal');
+                const withdrawModal = document.getElementById('walletWithdrawModal');
+                const transactionsModal = document.getElementById('walletTransactionsModal');
+                
+                if (event.target === editModal) {
+                    closeEditProfile();
+                }
+                if (event.target === passwordModal) {
+                    closeChangePassword();
+                }
+                if (event.target === depositModal) {
+                    closeWalletDeposit();
+                }
+                if (event.target === withdrawModal) {
+                    closeWalletWithdraw();
+                }
+                if (event.target === transactionsModal) {
+                    closeWalletTransactions();
+                }
+            });
+        }
+
+        // 更新个人资料
+        async function updateProfile() {
+            if (!currentUser) return;
+
+            const updates = {
+                username: document.getElementById('editUsername').value.trim(),
+                email: document.getElementById('editEmail').value.trim(),
+                phone: document.getElementById('editPhone').value.trim(),
+                city: document.getElementById('editCity').value.trim()
+            };
+
+            // 验证用户名
+            if (updates.username.length < 3 || updates.username.length > 20) {
+                showNotification('❌ 用户名长度必须在3-20个字符之间', 'error');
+                return;
+            }
+
+            try {
+                const response = await apiClient.updateMember(currentUser.id, updates);
+                if (response.success) {
+                    // 更新本地存储的用户信息
+                    currentUser = { ...currentUser, ...updates };
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    
+                    // 更新页面显示
+                    displayUserInfo();
+                    
+                    showNotification('✅ 个人资料更新成功！', 'success');
+                    closeEditProfile();
+                } else {
+                    showNotification(`❌ 更新失败: ${response.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('更新个人资料失败:', error);
+                showNotification('❌ 更新个人资料失败，请重试', 'error');
+            }
+        }
+
+        // 修改密码
+        async function changePassword() {
+            if (!currentUser) return;
+
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // 验证输入
+            if (newPassword.length < 6) {
+                showNotification('❌ 新密码长度至少6位', 'error');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                showNotification('❌ 新密码与确认密码不一致', 'error');
+                return;
+            }
+
+            try {
+                const response = await apiClient.changePassword(currentUser.id, currentPassword, newPassword);
+                if (response.success) {
+                    // 更新本地存储的密码
+                    currentUser.password = newPassword;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    
+                    showNotification('✅ 密码修改成功！请牢记新密码', 'success');
+                    closeChangePassword();
+                } else {
+                    showNotification(`❌ 密码修改失败: ${response.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('修改密码失败:', error);
+                showNotification('❌ 修改密码失败，请重试', 'error');
+            }
+        }
+
+        // 显示通知消息
+        function showNotification(message, type = 'info') {
+            // 创建通知元素
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 8px;
+                color: white;
+                font-weight: bold;
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                max-width: 300px;
+                word-wrap: break-word;
+            `;
+
+            // 根据类型设置颜色
+            switch (type) {
+                case 'success':
+                    notification.style.background = '#00ff88';
+                    notification.style.color = '#000';
+                    break;
+                case 'error':
+                    notification.style.background = '#ff6b6b';
+                    break;
+                case 'warning':
+                    notification.style.background = '#ffc107';
+                    notification.style.color = '#000';
+                    break;
+                default:
+                    notification.style.background = '#00ff88';
+                    notification.style.color = '#000';
+            }
+
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            // 3秒后自动移除
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // 选择捐款金额
+        function selectDonationAmount(amount, btn) {
+            // 清除所有选中状态
+            document.querySelectorAll('.donation-amounts .amount-btn').forEach(btn => {
+                btn.classList.remove('selected');
+                btn.style.background = '#666';
+                btn.style.color = '#fff';
+            });
+            
+            // 设置当前选中状态
+            if (btn) {
+                btn.classList.add('selected');
+                btn.style.background = '#00ff88';
+                btn.style.color = '#000';
+            }
+            
+            // 设置自定义金额输入框的值
+            document.getElementById('customDonationAmount').value = amount;
+        }
+
+        // 使用钱包余额捐款
+        async function donateWithWallet() {
+            if (!currentUser) {
+                showNotification('❌ 请先登录', 'error');
+                return;
+            }
+
+            const customAmount = document.getElementById('customDonationAmount').value;
+            const message = document.getElementById('donationMessage').value.trim();
+            
+            let amount = 0;
+            if (customAmount && parseFloat(customAmount) > 0) {
+                amount = parseFloat(customAmount);
+            } else {
+                showNotification('❌ 请选择或输入捐款金额', 'error');
+                return;
+            }
+
+            if (amount > 10000) {
+                showNotification('❌ 单次捐款金额不能超过10000元', 'error');
+                return;
+            }
+
+            // 检查钱包余额
+            const currentBalance = parseFloat(document.getElementById('walletBalance').textContent);
+            if (amount > currentBalance) {
+                showNotification('❌ 钱包余额不足，请先充值', 'error');
+                return;
+            }
+
+            // 确认捐款
+            const confirmMessage = `确认捐款 ¥${amount.toFixed(2)} 元吗？\n${message ? '留言：' + message : ''}`;
+            if (!confirm(confirmMessage)) {
+                return;
+            }
+
+            try {
+                // 执行钱包扣款
+                const response = await apiClient.withdrawFromWallet(currentUser.id, amount);
+                if (response.success) {
+                    // 记录捐款信息到数据库
+                    const donationData = {
+                        user_id: currentUser.id,
+                        amount: amount,
+                        message: message,
+                        payment_method: 'wallet',
+                        status: 'completed'
+                    };
+
+                    // 调用捐款API记录捐款
+                    try {
+                        const donationResponse = await apiClient.request('/api/donations', {
+                            method: 'POST',
+                            body: JSON.stringify(donationData)
+                        });
+                        
+                        if (donationResponse.success) {
+                            showNotification(`✅ 捐款成功！感谢您对闲狗联合会的支持！\n捐款金额：¥${amount.toFixed(2)}元`, 'success');
+                            
+                            // 刷新钱包余额和捐款总额
+                            await loadWalletInfo();
+                            loadDonationTotal();
+                            
+                            // 清空表单
+                            document.getElementById('customDonationAmount').value = '';
+                            document.getElementById('donationMessage').value = '';
+                            document.querySelectorAll('.donation-amounts .amount-btn').forEach(btn => {
+                                btn.style.background = '#666';
+                                btn.style.color = '#fff';
+                            });
+                        } else {
+                            // 如果捐款记录失败，需要回滚钱包扣款
+                            await apiClient.depositToWallet(currentUser.id, amount);
+                            showNotification(`❌ 捐款记录失败，已退回钱包扣款`, 'error');
+                        }
+                    } catch (donationError) {
+                        // 如果捐款记录失败，需要回滚钱包扣款
+                        await apiClient.depositToWallet(currentUser.id, amount);
+                        console.error('捐款记录失败:', donationError);
+                        showNotification(`❌ 捐款记录失败，已退回钱包扣款`, 'error');
+                    }
+                } else {
+                    showNotification(`❌ 捐款失败: ${response.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('捐款失败:', error);
+                showNotification('❌ 捐款失败，请重试', 'error');
+            }
+        }
+
+        // 使用钱包余额报名活动
+        async function registerEventWithWallet(eventId, fee, eventName) {
+            if (!currentUser) {
+                showNotification('❌ 请先登录', 'error');
+                return;
+            }
+
+            // 检查钱包余额
+            const currentBalance = parseFloat(document.getElementById('walletBalance').textContent);
+            if (fee > currentBalance) {
+                showNotification('❌ 钱包余额不足，请先充值', 'error');
+                return;
+            }
+
+            // 确认报名
+            const confirmMessage = `确认报名参加活动「${eventName}」吗？\n活动费用：¥${fee.toFixed(2)}元`;
+            if (!confirm(confirmMessage)) {
+                return;
+            }
+
+            try {
+                // 执行钱包扣款
+                const response = await apiClient.withdrawFromWallet(currentUser.id, fee);
+                if (response.success) {
+                    // 记录活动报名（这里简化处理，实际应该调用活动报名API）
+                    const registrationData = {
+                        user_id: currentUser.id,
+                        event_id: eventId,
+                        event_name: eventName,
+                        fee: fee,
+                        payment_method: 'wallet',
+                        status: 'confirmed'
+                    };
+
+                    // 模拟活动报名记录
+                    showNotification(`✅ 活动报名成功！\n活动：${eventName}\n费用：¥${fee.toFixed(2)}元`, 'success');
+                    
+                    // 刷新钱包余额
+                    await loadWalletInfo();
+                    
+                    // 刷新活动报名列表
+                    loadEventRegistrations();
+                } else {
+                    showNotification(`❌ 活动报名失败: ${response.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('活动报名失败:', error);
+                showNotification('❌ 活动报名失败，请重试', 'error');
+            }
+        }
+
+        // 加载捐款总额
+        async function loadDonationTotal() {
+            if (!currentUser) return;
+            
+            try {
+                const response = await apiClient.getUserDonations(currentUser.id);
+                if (response.success) {
+                    document.getElementById('donationTotal').textContent = response.total_amount.toFixed(2);
+                } else {
+                    document.getElementById('donationTotal').textContent = '0.00';
+                }
+            } catch (error) {
+                console.error('加载捐款总额失败:', error);
+                document.getElementById('donationTotal').textContent = '0.00';
+            }
+        }
+
+        // 加载活动报名记录
+        async function loadEventRegistrations() {
+            if (!currentUser) return;
+            
+            try {
+                // 这里应该调用获取用户活动报名记录的API
+                // 暂时显示模拟数据
+                const mockRegistrations = [
+                    {
+                        event_name: '羽毛球友谊赛',
+                        location: '九洞篮球场中心',
+                        event_time: '2024年12月15日 14:00-17:00',
+                        registration_date: '2024-12-10'
+                    },
+                    {
+                        event_name: '美食分享会',
+                        location: '湖畔花园餐厅',
+                        event_time: '2024年12月20日 18:00-21:00',
+                        registration_date: '2024-12-12'
+                    }
+                ];
+
+                const signupList = document.getElementById('signupList');
+                signupList.innerHTML = '';
+                
+                mockRegistrations.forEach(registration => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${registration.event_name}</td>
+                        <td>${registration.location}</td>
+                        <td>${registration.event_time}</td>
+                        <td>${registration.registration_date}</td>
+                    `;
+                    signupList.appendChild(row);
+                });
+            } catch (error) {
+                console.error('加载活动报名记录失败:', error);
+                document.getElementById('signupList').innerHTML = '<tr><td colspan="4" style="text-align: center; color: #888;">暂无报名记录</td></tr>';
+            }
+        }
+
+        // 添加动画样式
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

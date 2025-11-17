@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会员小游戏 - 闲狗联合会（JLP）</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 游戏引擎和核心文件 -->
+    <script src="js/game-engine.js"></script>
+    <!-- 游戏文件 -->
+    <script src="js/racing-game-3d.js"></script>
+    <script src="js/brick-breaker-game.js"></script>
+    <script src="js/snake-game.js"></script>
+    <!-- 游戏管理器和UI -->
+    <script src="js/game-manager.js"></script>
+    <script src="js/game-styles.js"></script>
+    <script src="js/game-stats.js"></script>
+    
+</head>
+<body id="gamesPage">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>闲狗联合会（JLP）</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="events.html">活动展示</a></li>
+                    <li><a href="member.html">会员中心</a></li>
+                    <li><a href="login.html">登录</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>会员小游戏</h1>
+            <p>会员登录后可访问的 10 种小游戏</p>
+        </div>
+    </section>
+
+    <section class="games-section">
+        <div class="container">
+            <!-- 游戏统计面板 -->
+            <div class="game-stats-panel">
+                <h2 style="color: #00ff88; text-align: center; margin-bottom: 20px;">🎮 游戏数据中心</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-value" id="totalGames">0</span>
+                        <div class="stat-label">总游戏次数</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="totalScore">0</span>
+                        <div class="stat-label">总分数</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="avgScore">0</span>
+                        <div class="stat-label">平均分数</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="playTime">0</span>
+                        <div class="stat-label">游戏时长(分钟)</div>
+                    </div>
+                </div>
+            </div>
+            <div id="gamesGate" class="info-card" style="display:none;">
+                <h3>请先登录</h3>
+                <p>会员专属小游戏需要登录后才能访问。</p>
+                <a class="btn" href="login.html">去登录</a>
+            </div>
+
+            <div id="gamesList" class="games-grid" style="display:none;">
+                <!-- 高画质游戏卡片 -->
+                <div class="game-card" onclick="gameManager.loadGame('racing')">
+                    <div class="game-icon">🏎️</div>
+                    <div class="game-title">3D赛车游戏</div>
+                    <div class="game-description">
+                        高画质3D赛车体验，逼真的道路和车辆物理效果，支持粒子特效和动态光照
+                    </div>
+                    <div class="game-stats">
+                        <span>🏁 竞速</span>
+                        <span>🎮 3D</span>
+                        <span>⚡ 高画质</span>
+                    </div>
+                    <div class="game-difficulty difficulty-medium">中等难度</div>
+                </div>
+                
+                <div class="game-card" onclick="gameManager.loadGame('brick')">
+                    <div class="game-icon">🧱</div>
+                    <div class="game-title">打砖块游戏</div>
+                    <div class="game-description">
+                        经典Arkanoid风格，包含粒子系统、道具效果、屏幕震动等高级视觉特效
+                    </div>
+                    <div class="game-stats">
+                        <span>🎯 射击</span>
+                        <span>✨ 粒子</span>
+                        <span>🌟 特效</span>
+                    </div>
+                    <div class="game-difficulty difficulty-easy">简单</div>
+                </div>
+                
+                <div class="game-card" onclick="gameManager.loadGame('snake')">
+                    <div class="game-icon">🐍</div>
+                    <div class="game-title">贪吃蛇游戏</div>
+                    <div class="game-description">
+                        现代化贪吃蛇，3D视觉效果、动态障碍物、粒子轨迹、脉冲动画
+                    </div>
+                    <div class="game-stats">
+                        <span>🎮 经典</span>
+                        <span>🌈 现代</span>
+                        <span>⚡ 流畅</span>
+                    </div>
+                    <div class="game-difficulty difficulty-easy">简单</div>
+                </div>
+                
+                <!-- 其他游戏占位卡片 -->
+                <div class="event-item"><div class="event-details"><h3>🧩 拼图大师</h3><p>休闲益智拼图</p><div class="event-actions"><a href="#" class="btn">即将推出</a></div></div></div>
+                <div class="event-item"><div class="event-details"><h3>🔢 数独挑战</h3><p>逻辑推理</p><div class="event-actions"><a href="#" class="btn">即将推出</a></div></div></div>
+                <div class="game-card" onclick="gameManager.loadGame('memory')"><div class="game-icon">🎴</div><div class="game-title">记忆翻牌</div><div class="game-description">翻牌匹配，难度可选，适合快速训练记忆能力</div><div class="game-stats"><span>🧠 记忆</span><span>🎯 匹配</span><span>⚡ 轻松</span></div><div class="game-difficulty difficulty-easy">简单</div></div>
+                <div class="game-card" onclick="gameManager.loadGame('whac')"><div class="game-icon">🔨</div><div class="game-title">打地鼠</div><div class="game-description">点击出现的地鼠抢分，支持多难度和倒计时</div><div class="game-stats"><span>⚡ 反应</span><span>🎮 轻松</span><span>⏱️ 计时</span></div><div class="game-difficulty difficulty-medium">中等难度</div></div>
+                <div class="game-card" onclick="gameManager.loadGame('2048')"><div class="game-icon">🔢</div><div class="game-title">2048</div><div class="game-description">经典数字合并游戏，支持键盘与分数统计</div><div class="game-stats"><span>🔢 合并</span><span>🧠 策略</span><span>🎮 经典</span></div><div class="game-difficulty difficulty-easy">简单</div></div>
+                <div class="event-item"><div class="event-details"><h3>🏃 跑酷跳跃</h3><p>动作闯关</p><div class="event-actions"><a href="#" class="btn">即将推出</a></div></div></div>
+                <div class="game-card" onclick="gameManager.loadGame('maze')"><div class="game-icon">🗺️</div><div class="game-title">迷宫逃脱</div><div class="game-description">随机生成迷宫，控制角色到达终点</div><div class="game-stats"><span>🧭 探索</span><span>🧠 路径</span><span>🎮 迷宫</span></div><div class="game-difficulty difficulty-hard">困难</div></div>
+            </div>
+            <!-- 简易打地鼠小游戏容器 -->
+            <section id="simpleGame" style="display:none; margin-top:20px;">
+                <div class="container">
+                    <h2>打地鼠（试玩版）</h2>
+                    <p>点击出现的地鼠，30秒内尽可能多得分！</p>
+                    <div id="whacGrid" style="display:grid; grid-template-columns: repeat(3, 120px); gap:12px; justify-content:center; margin:20px 0;"></div>
+                    <div style="text-align:center;">
+                        <span>分数：<strong id="whacScore">0</strong></span>
+                        <span style="margin-left:20px;">剩余时间：<strong id="whacTime">30</strong>s</span>
+                        <div style="margin-top:12px;">
+                            <a href="#" class="btn" id="whacStartBtn">重新开始</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 闲狗联合会. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js?v=4"></script>
+</body>
+<html>

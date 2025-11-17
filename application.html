@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>入会申请 - 闲狗联合会</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h2>闲狗联合会</h2>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="index.html" class="nav-link">首页</a></li>
+                    <li class="nav-item"><a href="about.html" class="nav-link">关于我们</a></li>
+                    <li class="nav-item"><a href="events.html" class="nav-link">活动展示</a></li>
+                    <li class="nav-item"><a href="contact.html" class="nav-link">联系我们</a></li>
+                    <li class="nav-item"><a href="donation.html" class="nav-link">捐款</a></li>
+                    <li class="nav-item"><a href="login.html" class="nav-link">登录</a></li>
+                    <li class="nav-item"><a href="register.html" class="nav-link">注册</a></li>
+                </ul>
+                <div class="hamburger"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <div class="container">
+                <h1>入会申请</h1>
+                <p>选择适合您的会员类型，加入我们，享受专属权益</p>
+            </div>
+        </div>
+
+        <section class="application-section">
+            <div class="container">
+                <div class="application-container">
+                    <form class="application-form" id="applicationForm">
+                        <h2>选择会员类型并支付</h2>
+                        
+                        <div class="form-group">
+                            <label>选择会员类型 *</label>
+                            <div class="membership-options">
+                                <div class="membership-card">
+                                    <input type="radio" id="member_regular" name="membership_type" value="regular" checked data-fee="100">
+                                    <label for="member_regular">
+                                        <h4>普通会员</h4>
+                                        <p class="fee">年费: 100元</p>
+                                        <p>享受所有基本会员权益，参与社区活动。</p>
+                                    </label>
+                                </div>
+                                <div class="membership-card">
+                                    <input type="radio" id="member_premium" name="membership_type" value="premium" data-fee="300">
+                                    <label for="member_premium">
+                                        <h4>高级会员</h4>
+                                        <p class="fee">年费: 300元</p>
+                                        <p>除基本权益外，还可享受优先报名、专属折扣等高级服务。</p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fullName">姓名 *</label>
+                            <input type="text" id="fullName" name="fullName" required placeholder="请输入您的真实姓名">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">邮箱 *</label>
+                            <input type="email" id="email" name="email" required placeholder="用于接收会员通讯和通知">
+                        </div>
+
+                        <div class="form-group">
+                            <label>选择支付方式 *</label>
+                            <div class="payment-methods">
+                                <label><input type="radio" name="payment_method" value="alipay" checked> 支付宝</label>
+                                <label><input type="radio" name="payment_method" value="wechat"> 微信支付</label>
+                                <label><input type="radio" name="payment_method" value="paypal"> PayPal</label>
+                                <label><input type="radio" name="payment_method" value="creditcard"> 信用卡</label>
+                            </div>
+                        </div>
+
+                        <div class="form-summary">
+                            <p>应付总额: <span id="totalFee">100.00</span> 元</p>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full">确认支付并提交申请</button>
+                    </form>
+
+                    <div class="success-message" id="applicationSuccessMessage" style="display: none;">
+                        <div class="success-card">
+                            <h3>🎉 申请提交成功！</h3>
+                            <p>感谢您的申请！我们已收到您的付款和申请信息，后台审核通过后将通过邮件通知您。</p>
+                            <a href="index.html" class="btn btn-primary">返回首页</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 闲狗联合会. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script src="js/api-client.js?v=5"></script>
+    <script src="js/script.js?v=5"></script>
+</body>
+</html>

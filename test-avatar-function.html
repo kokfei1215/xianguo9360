@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>头像功能测试 - 闲狗联合会</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 1px solid #00ff88;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+        .test-section h3 {
+            color: #00ff88;
+            margin-bottom: 15px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            color: #000;
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border-left: 4px solid #00ff88;
+            min-height: 40px;
+        }
+        .error {
+            border-left-color: #ff4444;
+            color: #ff4444;
+        }
+        .success {
+            border-left-color: #00ff88;
+            color: #00ff88;
+        }
+        .avatar-display {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #00ff88;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; color: #00ff88;">🎭 头像功能测试</h1>
+        
+        <div class="test-section">
+            <h3>📤 获取头像测试</h3>
+            <p>测试 getUserAvatar 函数是否正常工作</p>
+            <button class="btn btn-primary" onclick="testGetAvatar()">测试获取头像</button>
+            <div id="getAvatarResult" class="result">点击按钮进行测试</div>
+        </div>
+
+        <div class="test-section">
+            <h3>💾 保存头像测试</h3>
+            <p>测试 setUserAvatar 函数是否正常工作</p>
+            <button class="btn btn-primary" onclick="testSetAvatar()">测试保存头像</button>
+            <div id="setAvatarResult" class="result">点击按钮进行测试</div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔄 完整头像流程测试</h3>
+            <p>测试完整的头像获取和保存流程</p>
+            <button class="btn btn-primary" onclick="testAvatarFlow()">测试完整流程</button>
+            <div id="flowResult" class="result">点击按钮进行测试</div>
+        </div>
+
+        <div class="test-section">
+            <h3>👤 模拟头像显示</h3>
+            <p>显示获取到的头像</p>
+            <button class="btn btn-secondary" onclick="displayAvatar()">显示头像</button>
+            <div id="avatarDisplay" style="text-align: center; margin-top: 20px;"></div>
+        </div>
+    </div>
+
+    <script src="js/api-client.js"></script>
+    <script>
+        // 测试获取头像
+        async function testGetAvatar() {
+            const resultDiv = document.getElementById('getAvatarResult');
+            try {
+                resultDiv.textContent = '正在测试获取头像...';
+                resultDiv.className = 'result';
+                
+                // 模拟调用 getUserAvatar
+                const result = await window.apiClient.getUserAvatar('test@example.com');
+                console.log('获取头像结果:', result);
+                
+                if (result && result.success && result.avatar) {
+                    resultDiv.innerHTML = `<span class="success">✅ 测试成功！</span><br>
+                        头像URL: ${result.avatar}<br>
+                        状态: ${result.success ? '成功' : '失败'}`;
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ 测试失败！</span><br>
+                        返回数据格式不正确`;
+                }
+            } catch (error) {
+                console.error('测试失败:', error);
+                resultDiv.innerHTML = `<span class="error">❌ 测试失败！</span><br>
+                    错误: ${error.message}`;
+            }
+        }
+
+        // 测试保存头像
+        async function testSetAvatar() {
+            const resultDiv = document.getElementById('setAvatarResult');
+            try {
+                resultDiv.textContent = '正在测试保存头像...';
+                resultDiv.className = 'result';
+                
+                // 创建一个模拟的头像数据URL（简单的base64图片）
+                const mockAvatarData = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQwIiBmaWxsPSIjMDBmZjg4Ii8+CiAgICA8dGV4dCB4PSI1MCIgeT0iNTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDAiIGZvbnQtc2l6ZT0iMjAiPuWboumYnzwvdGV4dD4KPC9zdmc+';
+                
+                // 模拟调用 setUserAvatar
+                const result = await window.apiClient.setUserAvatar('test@example.com', mockAvatarData);
+                console.log('保存头像结果:', result);
+                
+                if (result && result.success) {
+                    resultDiv.innerHTML = `<span class="success">✅ 测试成功！</span><br>
+                        状态: ${result.success ? '成功' : '失败'}<br>
+                        消息: ${result.message || '头像保存成功'}`;
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ 测试失败！</span><br>
+                        返回数据格式不正确`;
+                }
+            } catch (error) {
+                console.error('测试失败:', error);
+                resultDiv.innerHTML = `<span class="error">❌ 测试失败！</span><br>
+                    错误: ${error.message}`;
+            }
+        }
+
+        // 测试完整流程
+        async function testAvatarFlow() {
+            const resultDiv = document.getElementById('flowResult');
+            try {
+                resultDiv.textContent = '正在测试完整头像流程...';
+                resultDiv.className = 'result';
+                
+                // 第一步：保存头像
+                const mockAvatarData = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQwIiBmaWxsPSIjMDBmZjg4Ii8+CiAgICA8dGV4dCB4PSI1MCIgeT0iNTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDAiIGZvbnQtc2l6ZT0iMjAiPuWboumYnzwvdGV4dD4KPC9zdmc+';
+                const saveResult = await window.apiClient.setUserAvatar('test@example.com', mockAvatarData);
+                
+                if (saveResult && saveResult.success) {
+                    // 第二步：获取头像
+                    const getResult = await window.apiClient.getUserAvatar('test@example.com');
+                    
+                    if (getResult && getResult.success && getResult.avatar) {
+                        resultDiv.innerHTML = `<span class="success">✅ 完整流程测试成功！</span><br>
+                            保存: ${saveResult.success ? '成功' : '失败'}<br>
+                            获取: ${getResult.success ? '成功' : '失败'}<br>
+                            头像URL: ${getResult.avatar}`;
+                    } else {
+                        resultDiv.innerHTML = `<span class="error">❌ 获取头像失败！</span>`;
+                    }
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ 保存头像失败！</span>`;
+                }
+            } catch (error) {
+                console.error('测试失败:', error);
+                resultDiv.innerHTML = `<span class="error">❌ 测试失败！</span><br>
+                    错误: ${error.message}`;
+            }
+        }
+
+        // 显示头像
+        async function displayAvatar() {
+            const displayDiv = document.getElementById('avatarDisplay');
+            try {
+                const result = await window.apiClient.getUserAvatar('test@example.com');
+                
+                if (result && result.success && result.avatar) {
+                    displayDiv.innerHTML = `
+                        <div>
+                            <img src="${result.avatar}" class="avatar-display" alt="用户头像">
+                            <p style="color: #00ff88; margin-top: 10px;">头像显示成功！</p>
+                        </div>
+                    `;
+                } else {
+                    displayDiv.innerHTML = `<p style="color: #ff4444;">无法显示头像</p>`;
+                }
+            } catch (error) {
+                console.error('显示头像失败:', error);
+                displayDiv.innerHTML = `<p style="color: #ff4444;">显示头像失败: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
